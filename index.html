@@ -218,6 +218,18 @@ header{background:#fff;border-bottom:2px solid var(--accent);padding:0 32px;posi
 .empty-bank-title{font-size:1rem;font-weight:700;margin-bottom:8px;}
 .empty-bank-sub{font-size:.78rem;color:var(--muted);line-height:1.6;}
 
+/* Year / paper section headings */
+.qbank-section-heading{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 4px 6px;
+  margin-top:20px;
+  border-bottom:2px solid var(--accent);
+}
+.qbank-section-heading:first-child{margin-top:0;}
+.qbsh-year{font-size:1.15rem;font-weight:700;color:var(--accent);letter-spacing:-.01em;}
+.qbsh-paper{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);}
+.qbsh-count{font-size:.6rem;color:var(--muted);margin-left:auto;letter-spacing:.04em;}
+
 /* ───────────────── ADMIN ───────────────── */
 #adminApp{display:none;background:#f5f5f5;min-height:100vh;font-family:var(--sans);}
 .admin-login{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f5f5;}
@@ -1213,12 +1225,13 @@ function showPage(id,btn){
 // ═══════════════════════════════════════════════════════
 // STUDENT: BANK
 // ═══════════════════════════════════════════════════════
-var bankFilters={topic:'all',paper:'all',year:'all',diff:'all',qType:'all'};
+var bankFilters={topic:'all',paper:'all',year:'all',diff:'all',qType:'all',subtopic:'all'};
 var selected={};
 
 function filteredQs(){
   return loadQS().filter(function(q){
     if(bankFilters.topic!=='all'&&q.topic!==bankFilters.topic)return false;
+    if(bankFilters.subtopic!=='all'&&q.subtopic!==bankFilters.subtopic)return false;
     if(bankFilters.paper!=='all'&&q.paper!==parseInt(bankFilters.paper))return false;
     if(bankFilters.year!=='all'&&q.year!==parseInt(bankFilters.year))return false;
     if(bankFilters.diff!=='all'&&getQDiff(q)!==parseInt(bankFilters.diff))return false;
@@ -1227,12 +1240,20 @@ function filteredQs(){
   });
 }
 
+function setBF(type,val){
+  bankFilters[type]=val;
+  // Reset subtopic filter whenever topic changes
+  if(type==='topic') bankFilters.subtopic='all';
+  renderBank();
+}
+
 function renderBankControls(){
   var qs=loadQS();
   if(!qs.length){document.getElementById('qbControls').innerHTML='';return;}
   var years=[];qs.forEach(function(q){if(years.indexOf(q.year)===-1)years.push(q.year);});years.sort(function(a,b){return b-a;});
   var h='';
-  // Topics row
+
+  // ── Topic row ──
   h+='<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px;">';
   h+='<span style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);min-width:44px;">Topic</span>';
   h+='<button class="chip'+(bankFilters.topic==='all'?' active':'')+'" onclick="setBF(\'topic\',\'all\')">All</button>';
@@ -1247,7 +1268,25 @@ function renderBankControls(){
     h+='<button class="chip '+topicClass(t)+(bankFilters.topic===t?' active':'')+'" onclick="setBF(\'topic\',\''+t.replace(/'/g,"\\'")+'\')">'+t+' <span class="n">'+n+'</span></button>';
   });
   h+='</div>';
-  // Paper/Type/Diff row
+
+  // ── Subtopic row — only when a topic is selected ──
+  if(bankFilters.topic!=='all'){
+    var subtopics=[];
+    qs.filter(function(q){return q.topic===bankFilters.topic&&q.subtopic;}).forEach(function(q){
+      if(subtopics.indexOf(q.subtopic)===-1) subtopics.push(q.subtopic);
+    });
+    if(subtopics.length>1){
+      h+='<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px;padding:8px 12px;background:#fafafa;border-radius:6px;border:1px solid #f0f0f0;">';
+      h+='<span style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);min-width:60px;">Subtopic</span>';
+      h+='<button class="chip'+(bankFilters.subtopic==='all'?' active':'')+'" onclick="setBF(\'subtopic\',\'all\')">All</button>';
+      subtopics.sort().forEach(function(s){
+        h+='<button class="chip'+(bankFilters.subtopic===s?' active':'')+'" onclick="setBF(\'subtopic\',\''+s.replace(/'/g,"\\'")+'\')">'+s+'</button>';
+      });
+      h+='</div>';
+    }
+  }
+
+  // ── Paper / Type / Difficulty row ──
   h+='<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px;">';
   h+='<span style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);min-width:44px;">Paper</span>';
   [{v:'all',l:'All'},{v:'1',l:'Paper 1'},{v:'2',l:'Paper 2'}].forEach(function(p){h+='<button class="chip'+(bankFilters.paper===p.v?' active':'')+'" onclick="setBF(\'paper\',\''+p.v+'\')">'+p.l+'</button>';});
@@ -1258,12 +1297,14 @@ function renderBankControls(){
   h+='<span style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);min-width:52px;">Difficulty</span>';
   [{v:'all',l:'All'},{v:'1',l:'● Easy'},{v:'2',l:'●● Med'},{v:'3',l:'●●● Hard'}].forEach(function(d){h+='<button class="chip'+(bankFilters.diff===d.v?' active':'')+'" onclick="setBF(\'diff\',\''+d.v+'\')">'+d.l+'</button>';});
   h+='</div>';
-  // Years row
+
+  // ── Year row ──
   h+='<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">';
   h+='<span style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);min-width:44px;">Year</span>';
   h+='<button class="chip'+(bankFilters.year==='all'?' active':'')+'" onclick="setBF(\'year\',\'all\')">All</button>';
   years.forEach(function(y){h+='<button class="chip'+(bankFilters.year==y?' active':'')+'" onclick="setBF(\'year\',\''+y+'\')">'+y+'</button>';});
   h+='</div>';
+
   document.getElementById('qbControls').innerHTML=h;
 }
 
@@ -1277,95 +1318,88 @@ function renderBank(){
   }
   document.getElementById('qbMeta').textContent=data.length+' question'+(data.length!==1?'s':'')+' • select to build a PDF';
   var dl=['','● Easy','●● Medium','●●● Hard'],dc=['','color:#16a34a','color:#d97706','color:#FF0000'];
-  var h='';
+
+  // ── Group by year then paper, sorted newest first ──
+  var groups=[]; // [{year, paper, questions:[]}]
   data.forEach(function(q){
-    var key=qKey(q), done=!!revised[key], sel=!!selected[key];
-    var sid='qc'+q.id, tcls=topicClass(q.topic), cd=getQDiff(q);
-    var parts = q.parts || [];
-    // Legacy support: if no parts array, synthesise one
-    if(!parts.length && (q.contentText||q.contentImage)){
-      parts=[{part:'a',contentType:q.contentType,contentText:q.contentText,contentImage:q.contentImage,answerBoxRows:q.answerBoxRows||0,modelAnswer:null,videoUrl:null,requiredInfo:null}];
-    }
-
-    h+='<div class="qcard'+(done?' done':'')+'" id="'+sid+'">';
-    // Header
-    h+='<div class="qch" onclick="toggleCard(\''+sid+'\')" style="grid-template-columns:52px 30px 32px 130px 1fr auto auto auto auto;">';
-    h+='<span class="qyear">'+q.year+'</span>';
-    h+='<span class="qpaper">P'+q.paper+'</span>';
-    h+='<span class="qqnum">Q'+q.qNum+'</span>';
-    h+='<span class="qtpill '+tcls+'">'+q.topic+'</span>';
-    h+='<span class="qsnip">'+(q.subtopic||q.topic)+'</span>';
-    h+='<span class="qtypepill '+q.qType+'">'+(q.qType==='short'?'Short':'Long')+'</span>';
-    h+='<div class="ddots" id="diff-'+sid+'" onclick="event.stopPropagation()">'+buildDots(q.id,cd,sid)+'</div>';
-    h+='<div class="qcw" onclick="event.stopPropagation()">';
-    h+='<input type="checkbox" id="k'+sid+'"'+(done?' checked':'')+' onchange="toggleRevised(\''+key+'\',\''+sid+'\')">';
-    h+='<label class="qcl" for="k'+sid+'">'+(done?'✓ Done':'Mark done')+'</label></div>';
-    h+='<span class="qchev">▶</span></div>';
-
-    // Body
-    h+='<div class="qcb">';
-
-    // Info chips
-    h+='<div class="qib" style="padding-top:12px;">';
-    h+='<span class="qic blue">Paper '+q.paper+'</span>';
-    h+='<span class="qic amber">'+q.topic+'</span>';
-    h+='<span class="qic green">'+q.marks+' marks</span>';
-    h+='<span class="qic '+(q.qType==='short'?'blue':'red')+'">'+(q.qType==='short'?'Short Q':'Long Q')+'</span>';
-    h+='<span class="qic" style="background:#f5f5f5;'+dc[cd]+'">'+dl[cd]+'</span>';
-    h+='</div>';
-
-    // Parts
-    parts.forEach(function(p, pi){
-      var partSid = sid+'_'+p.part;
-      h+='<div class="part-section">';
-      if(parts.length > 1) h+='<div class="part-label">Part ('+p.part+')</div>';
-
-      // Required info box
-      if(p.requiredInfo){
-        h+='<div class="req-info-box"><div class="req-info-label">ℹ Required from previous answer</div>'+escHtml(p.requiredInfo)+'</div>';
-      }
-
-      // Content
-      if(p.contentType==='image' && p.contentImage){
-        h+='<div class="q-content-area"><img class="q-img-content" src="'+p.contentImage+'" alt="Q'+q.qNum+p.part+'"></div>';
-      } else if(p.contentType==='text' && p.contentText){
-        h+='<div class="q-content-area"><div class="q-text-content">'+escHtml(p.contentText)+'</div></div>';
-      }
-
-      // Answer box
-      if(p.answerBoxRows && p.answerBoxRows>0){
-        h+='<div class="answer-box-wrap"><div class="answer-box">'+buildAnswerBoxSVG(p.answerBoxRows)+'</div></div>';
-      }
-
-      // Show answer + video buttons (only if populated)
-      var hasAns = p.modelAnswer && p.modelAnswer.trim();
-      var hasVid = p.videoUrl && p.videoUrl.trim();
-      if(hasAns || hasVid){
-        h+='<div style="display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 6px;">';
-        if(hasAns){
-          h+='<button class="reveal-btn ans" onclick="toggleAnswer(\''+partSid+'\',this)">▶ Show Answer</button>';
-        }
-        if(hasVid){
-          var safeUrl = p.videoUrl.replace(/'/g,"\\'");
-          h+='<a class="reveal-btn vid" href="'+escHtml(p.videoUrl)+'" target="_blank" rel="noopener">▶ Watch Video</a>';
-        }
-        h+='</div>';
-        if(hasAns){
-          h+='<div class="answer-reveal" id="ans-'+partSid+'">'+escHtml(p.modelAnswer)+'</div>';
-        }
-      }
-      h+='</div>'; // end part-section
-    });
-
-    // Actions row
-    h+='<div class="qact" style="border-top:1px solid #f0f0f0;margin-top:10px;">';
-    h+='<a class="btn primary" href="https://www.examinations.ie/exammaterialarchive/" target="_blank" rel="noopener">SEC Paper PDF</a>';
-    h+='<div class="qsw" onclick="event.stopPropagation()"><input type="checkbox" id="s'+sid+'"'+(sel?' checked':'')+' onchange="toggleSel(\''+key+'\')"><label class="qsl" for="s'+sid+'">✓</label></div>';
-    h+='<span style="font-size:.65rem;color:var(--muted);">Select to PDF</span>';
-    h+='<button class="btn timer-btn" onclick="startTimer('+q.marks+',\''+q.year+' P'+q.paper+' Q'+q.qNum+' — '+(q.subtopic||q.topic).replace(/'/g,"\\'")+'\')">⏱ '+(q.marks<=10?'10':q.marks<=15?'15':'25')+' min timer</button>';
-    h+='</div></div></div>';
+    var g=null;
+    for(var i=0;i<groups.length;i++){if(groups[i].year===q.year&&groups[i].paper===q.paper){g=groups[i];break;}}
+    if(!g){g={year:q.year,paper:q.paper,questions:[]};groups.push(g);}
+    g.questions.push(q);
   });
-  if(!data.length&&qs.length) h='<div style="text-align:center;padding:60px;color:var(--muted);font-style:italic;">No questions match the current filters.</div>';
+  groups.sort(function(a,b){return b.year-a.year||a.paper-b.paper;});
+
+  var h='';
+  if(!data.length&&qs.length){
+    h='<div style="text-align:center;padding:60px;color:var(--muted);font-style:italic;">No questions match the current filters.</div>';
+  } else {
+    groups.forEach(function(g){
+      // Section heading
+      h+='<div class="qbank-section-heading">';
+      h+='<span class="qbsh-year">'+g.year+'</span>';
+      h+='<span class="qbsh-paper">Paper '+g.paper+'</span>';
+      h+='<span class="qbsh-count">'+g.questions.length+' question'+(g.questions.length!==1?'s':'')+'</span>';
+      h+='</div>';
+
+      g.questions.forEach(function(q){
+        var key=qKey(q), done=!!revised[key], sel=!!selected[key];
+        var sid='qc'+q.id, tcls=topicClass(q.topic), cd=getQDiff(q);
+        var parts = q.parts || [];
+        if(!parts.length && (q.contentText||q.contentImage)){
+          parts=[{part:'a',contentType:q.contentType,contentText:q.contentText,contentImage:q.contentImage,answerBoxRows:q.answerBoxRows||0,modelAnswer:null,videoUrl:null,requiredInfo:null}];
+        }
+
+        h+='<div class="qcard'+(done?' done':'')+'" id="'+sid+'">';
+        h+='<div class="qch" onclick="toggleCard(\''+sid+'\')" style="grid-template-columns:52px 30px 32px 130px 1fr auto auto auto auto;">';
+        h+='<span class="qyear">'+q.year+'</span>';
+        h+='<span class="qpaper">P'+q.paper+'</span>';
+        h+='<span class="qqnum">Q'+q.qNum+'</span>';
+        h+='<span class="qtpill '+tcls+'">'+q.topic+'</span>';
+        h+='<span class="qsnip">'+(q.subtopic||q.topic)+'</span>';
+        h+='<span class="qtypepill '+q.qType+'">'+(q.qType==='short'?'Short':'Long')+'</span>';
+        h+='<div class="ddots" id="diff-'+sid+'" onclick="event.stopPropagation()">'+buildDots(q.id,cd,sid)+'</div>';
+        h+='<div class="qcw" onclick="event.stopPropagation()">';
+        h+='<input type="checkbox" id="k'+sid+'"'+(done?' checked':'')+' onchange="toggleRevised(\''+key+'\',\''+sid+'\')">';
+        h+='<label class="qcl" for="k'+sid+'">'+(done?'✓ Done':'Mark done')+'</label></div>';
+        h+='<span class="qchev">▶</span></div>';
+
+        h+='<div class="qcb">';
+        h+='<div class="qib" style="padding-top:12px;">';
+        h+='<span class="qic blue">Paper '+q.paper+'</span>';
+        h+='<span class="qic amber">'+q.topic+'</span>';
+        h+='<span class="qic green">'+q.marks+' marks</span>';
+        h+='<span class="qic '+(q.qType==='short'?'blue':'red')+'">'+(q.qType==='short'?'Short Q':'Long Q')+'</span>';
+        h+='<span class="qic" style="background:#f5f5f5;'+dc[cd]+'">'+dl[cd]+'</span>';
+        h+='</div>';
+
+        parts.forEach(function(p){
+          var partSid=sid+'_'+p.part;
+          h+='<div class="part-section">';
+          if(parts.length>1) h+='<div class="part-label">Part ('+p.part+')</div>';
+          if(p.requiredInfo) h+='<div class="req-info-box"><div class="req-info-label">ℹ Required from previous answer</div>'+escHtml(p.requiredInfo)+'</div>';
+          if(p.contentType==='image'&&p.contentImage) h+='<div class="q-content-area"><img class="q-img-content" src="'+p.contentImage+'" alt="Q'+q.qNum+p.part+'"></div>';
+          else if(p.contentType==='text'&&p.contentText) h+='<div class="q-content-area"><div class="q-text-content">'+escHtml(p.contentText)+'</div></div>';
+          if(p.answerBoxRows&&p.answerBoxRows>0) h+='<div class="answer-box-wrap"><div class="answer-box">'+buildAnswerBoxSVG(p.answerBoxRows)+'</div></div>';
+          var hasAns=p.modelAnswer&&p.modelAnswer.trim(), hasVid=p.videoUrl&&p.videoUrl.trim();
+          if(hasAns||hasVid){
+            h+='<div style="display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 6px;">';
+            if(hasAns) h+='<button class="reveal-btn ans" onclick="toggleAnswer(\''+partSid+'\',this)">▶ Show Answer</button>';
+            if(hasVid) h+='<a class="reveal-btn vid" href="'+escHtml(p.videoUrl)+'" target="_blank" rel="noopener">▶ Watch Video</a>';
+            h+='</div>';
+            if(hasAns) h+='<div class="answer-reveal" id="ans-'+partSid+'">'+escHtml(p.modelAnswer)+'</div>';
+          }
+          h+='</div>';
+        });
+
+        h+='<div class="qact" style="border-top:1px solid #f0f0f0;margin-top:10px;">';
+        h+='<a class="btn primary" href="https://www.examinations.ie/exammaterialarchive/" target="_blank" rel="noopener">SEC Paper PDF</a>';
+        h+='<div class="qsw" onclick="event.stopPropagation()"><input type="checkbox" id="s'+sid+'"'+(sel?' checked':'')+' onchange="toggleSel(\''+key+'\')"><label class="qsl" for="s'+sid+'">✓</label></div>';
+        h+='<span style="font-size:.65rem;color:var(--muted);">Select to PDF</span>';
+        h+='<button class="btn timer-btn" onclick="startTimer('+q.marks+',\''+q.year+' P'+q.paper+' Q'+q.qNum+' — '+(q.subtopic||q.topic).replace(/'/g,"\\'")+'\')">⏱ '+(q.marks<=10?'10':q.marks<=15?'15':'25')+' min timer</button>';
+        h+='</div></div></div>';
+      });
+    });
+  }
   document.getElementById('qList').innerHTML=h;
 }
 
@@ -1375,8 +1409,6 @@ function toggleAnswer(partSid, btn){
   var showing = el.classList.toggle('show');
   btn.textContent = showing ? '▼ Hide Answer' : '▶ Show Answer';
 }
-
-function setBF(t,v){bankFilters[t]=v;renderBank();}
 
 function toggleCard(id){
   var e=document.getElementById(id);
