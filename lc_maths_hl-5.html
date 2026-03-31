@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LC Maths HL — Question Bank</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#fff;--s2:#fafafa;--s3:#f3f3f3;
+  --border:#e0e0e0;--accent:#FF0000;--adim:rgba(255,0,0,.08);
+  --green:#16a34a;--blue:#1d4ed8;
+  --muted:#777;--text:#111;--text2:#444;
+  --sans:'Poppins',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14.5px;line-height:1.6;min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#ddd;border-radius:3px;}
+
+/* ───────────────── STUDENT HEADER ───────────────── */
+header{background:#fff;border-bottom:2px solid var(--accent);padding:0 32px;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.hi{display:flex;align-items:center;height:56px;}
+.logo{font-size:1.3rem;font-weight:700;color:var(--accent);letter-spacing:-.01em;white-space:nowrap;margin-right:28px;}
+.nav-tabs{display:flex;height:100%;margin-right:auto;}
+.nt{display:flex;align-items:center;gap:7px;padding:0 16px;height:100%;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;font-family:var(--sans);transition:color .15s,border-color .15s;white-space:nowrap;}
+.nt:hover{color:var(--text2);}
+.nt.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tbadge{font-size:.55rem;font-weight:700;letter-spacing:.04em;background:var(--adim);color:var(--accent);padding:2px 6px;border-radius:3px;}
+.progress-wrap{display:flex;align-items:center;gap:8px;}
+.progress-label{font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.progress-track{width:80px;height:4px;background:var(--s3);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--green);border-radius:2px;transition:width .3s;}
+.progress-pct{font-size:.65rem;color:var(--green);min-width:28px;}
+
+/* ───────────────── STUDENT PAGES ───────────────── */
+.page{display:none;max-width:1000px;margin:0 auto;padding:28px 32px 80px;}
+.page.active{display:block;}
+.section-title{font-size:1.35rem;font-weight:700;margin-bottom:6px;letter-spacing:-.01em;}
+.section-sub{font-size:.78rem;color:var(--muted);margin-bottom:28px;line-height:1.5;}
+
+/* Answer box (gridded, red outline) */
+.answer-box-wrap{padding:12px 16px 4px;}
+.answer-box{border:2px solid var(--accent);border-radius:2px;width:100%;display:block;overflow:hidden;background:#fff;}
+.answer-box svg{display:block;width:100%;}
+
+/* Part tabs in admin form */
+.part-tab{flex:1;padding:8px 0;background:#fafafa;border:none;font-family:var(--sans);font-size:.7rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#888;cursor:pointer;transition:all .15s;}
+.part-tab.active{background:#fff0f0;color:#FF0000;}
+.part-tab:hover:not(.active){color:#444;background:#f0f0f0;}
+.part-panel-label{font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FF0000;margin-bottom:10px;}
+
+/* Student: show answer / video buttons */
+.reveal-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:4px;font-family:var(--sans);font-size:.65rem;font-weight:600;letter-spacing:.03em;cursor:pointer;border:1.5px solid;transition:all .14s;}
+.reveal-btn.ans{background:#f0fdf4;border-color:#bbf7d0;color:#15803d;}
+.reveal-btn.ans:hover{background:#dcfce7;border-color:#86efac;}
+.reveal-btn.vid{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8;}
+.reveal-btn.vid:hover{background:#dbeafe;border-color:#93c5fd;}
+.answer-reveal{display:none;margin:8px 16px 0;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:12px 14px;font-size:.8rem;color:#166534;line-height:1.7;white-space:pre-wrap;}
+.answer-reveal.show{display:block;}
+
+/* Part section in student card */
+.part-section{border-top:1px solid #f0f0f0;padding:14px 16px 0;}
+.part-section:first-child{border-top:none;padding-top:16px;}
+.part-label{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.req-info-box{background:#fffbeb;border:1px solid #fde68a;border-radius:5px;padding:9px 12px;margin-bottom:10px;font-size:.75rem;color:#78350f;line-height:1.6;}
+.req-info-label{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#92400e;margin-bottom:4px;}
+
+/* Chips */
+.qbc{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;border:1.5px solid var(--border);background:#fff;cursor:pointer;font-family:var(--sans);font-size:.72rem;font-weight:500;color:#555;transition:all .13s;white-space:nowrap;}
+.chip:hover{border-color:var(--accent);color:var(--accent);background:#fff0f0;}
+.chip.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
+.chip .n{font-size:.58rem;font-weight:400;opacity:.7;}
+.chip-sep{width:1px;height:20px;background:var(--border);margin:0 4px;flex-shrink:0;}
+.qb-meta{font-size:.62rem;font-weight:500;color:var(--muted);margin-bottom:14px;letter-spacing:.04em;text-transform:uppercase;}
+
+/* Question cards */
+.q-list{display:flex;flex-direction:column;gap:5px;}
+.qcard{background:#fff;border:1.5px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .15s,box-shadow .15s;}
+.qcard:hover{border-color:#ccc;box-shadow:0 1px 6px rgba(0,0,0,.06);}
+.qcard.open{border-color:var(--accent);box-shadow:0 2px 10px rgba(255,0,0,.08);}
+.qcard.done{border-color:var(--green);background:#f0fdf4;}
+.qch{display:grid;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;grid-template-columns:52px 30px 32px 130px 1fr auto auto auto auto;}
+.qyear{font-size:1rem;font-weight:700;color:var(--accent);white-space:nowrap;}
+.qpaper{font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.qqnum{font-size:.72rem;font-weight:600;color:#444;white-space:nowrap;}
+.qtpill{display:inline-flex;align-items:center;padding:3px 9px;border-radius:3px;font-size:.6rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qsnip{font-size:.8rem;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qchev{font-size:.55rem;color:#bbb;transition:transform .18s;flex-shrink:0;}
+.qcard.open .qchev{transform:rotate(90deg);color:var(--accent);}
+
+.qcw input[type=checkbox]{display:none;}
+.qcl{display:flex;align-items:center;gap:5px;cursor:pointer;padding:4px 6px;border-radius:4px;font-size:.65rem;font-weight:600;color:var(--muted);border:1.5px solid var(--border);background:#fff;transition:all .13s;user-select:none;white-space:nowrap;}
+.qcl:hover{border-color:var(--green);color:var(--green);background:#f0fdf4;}
+.qcw input:checked+.qcl{border-color:var(--green);background:var(--green);color:#fff;}
+.qsw input[type=checkbox]{display:none;}
+.qsl{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:transparent;transition:all .12s;flex-shrink:0;}
+.qsl:hover{border-color:var(--accent);}
+.qsw input:checked+.qsl{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+.qcb{display:none;border-top:1px solid var(--border);background:#fafafa;}
+.qcard.open .qcb{display:block;}
+
+/* Question content area */
+.q-content-area{padding:16px 16px 12px;}
+.q-text-content{font-size:.85rem;color:#222;line-height:1.7;white-space:pre-wrap;background:#fff;border:1px solid #ececec;border-radius:6px;padding:14px 16px;}
+.q-img-content{width:100%;border-radius:6px;display:block;max-height:500px;object-fit:contain;}
+
+.qib{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 16px 8px;}
+.qic{font-size:.6rem;font-weight:600;padding:3px 8px;border-radius:3px;letter-spacing:.04em;text-transform:uppercase;}
+.qic.blue{background:#e8f0ff;color:#1d4ed8;}
+.qic.amber{background:#fff0f0;color:var(--accent);}
+.qic.green{background:#f0fdf4;color:var(--green);}
+.qic.red{background:#fff0f0;color:var(--accent);}
+.qtips{margin:0 16px 12px;background:#fffbf0;border:1px solid #f0e0a0;border-radius:6px;padding:12px 14px;}
+.qtips-title{font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a6a00;margin-bottom:8px;}
+.qtips ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;}
+.qtips ul li{font-size:.75rem;color:#444;padding-left:14px;position:relative;line-height:1.5;}
+.qtips ul li::before{content:'→';position:absolute;left:0;color:#c0900a;font-size:.65rem;}
+.qact{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 16px 14px;border-top:1px solid var(--border);}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:4px;cursor:pointer;font-family:var(--sans);font-size:.68rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;border:1.5px solid var(--border);background:#fff;color:#444;transition:all .14s;text-decoration:none;}
+.btn:hover{border-color:#bbb;color:#111;}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+.btn.primary:hover{background:#cc0000;border-color:#cc0000;}
+.btn.timer-btn{margin-left:auto;}
+
+/* Topic colours */
+.tc-Calculus{background:#e8f0ff;color:#1d4ed8;}
+.tc-Algebra{background:#f3e8ff;color:#6d28d9;}
+.tc-Complex{background:#fff0f0;color:#cc0000;}
+.tc-Sequences{background:#ecfdf5;color:#065f46;}
+.tc-Probability{background:#fffbeb;color:#92400e;}
+.tc-Coordinate{background:#fff7ed;color:#9a3412;}
+.tc-Trigonometry{background:#f0fdfa;color:#134e4a;}
+.tc-Financial{background:#f7fee7;color:#3f6212;}
+.tc-Proofs{background:#fdf2f8;color:#831843;}
+
+/* Diff dots */
+.ddots{display:flex;align-items:center;gap:3px;flex-shrink:0;}
+.ddot{width:9px;height:9px;border-radius:50%;border:1.5px solid #ddd;background:#fff;transition:all .13s;cursor:pointer;}
+.ddot.filled.d1{background:#16a34a;border-color:#16a34a;}
+.ddot.filled.d2{background:#d97706;border-color:#d97706;}
+.ddot.filled.d3{background:#FF0000;border-color:#FF0000;}
+.qtypepill{font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px;white-space:nowrap;flex-shrink:0;}
+.qtypepill.short{background:#e8f0ff;color:#1d4ed8;}
+.qtypepill.long{background:#fff0f0;color:#FF0000;}
+
+/* Mock */
+.mock-layout{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start;}
+.mock-panel{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:20px;}
+.mock-panel h3{font-size:1rem;font-weight:700;margin-bottom:14px;}
+.mopt{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:5px;border:1.5px solid var(--border);background:#fff;margin-bottom:6px;cursor:pointer;transition:border-color .13s;}
+.mopt:hover{border-color:#bbb;}
+.mopt.selected{border-color:var(--accent);background:#fff0f0;}
+.mopt-label{font-size:.78rem;font-weight:600;}
+.mopt-check{width:16px;height:16px;border-radius:3px;border:1.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:transparent;flex-shrink:0;transition:all .12s;}
+.mopt.selected .mopt-check{background:var(--accent);border-color:var(--accent);color:#fff;}
+.mslider{width:100%;accent-color:var(--accent);margin:8px 0;}
+.mlabel{font-size:.72rem;color:var(--accent);font-weight:700;}
+.mbtn{width:100%;padding:11px;border-radius:4px;background:var(--accent);border:none;cursor:pointer;font-family:var(--sans);font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;transition:background .14s;margin-top:14px;}
+.mbtn:hover{background:#cc0000;}
+.mock-result{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:20px;}
+.mock-result h3{font-size:1rem;font-weight:700;margin-bottom:6px;}
+.mrsub{font-size:.62rem;color:var(--muted);margin-bottom:16px;}
+.mqi{background:#fff;border:1.5px solid var(--border);border-radius:5px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+.mqn{font-size:.65rem;color:var(--muted);min-width:20px;font-weight:600;}
+.mqi-info{flex:1;}
+.mqt{font-size:.78rem;font-weight:600;}
+.mqm-meta{font-size:.6rem;color:var(--muted);margin-top:2px;}
+.mqmarks{font-size:.7rem;color:var(--accent);font-weight:700;white-space:nowrap;}
+.mactions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+.mempty{text-align:center;padding:48px 20px;font-size:.8rem;color:var(--muted);font-style:italic;}
+.mempty-icon{font-size:2.5rem;display:block;margin-bottom:10px;opacity:.3;}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;}
+.stat-card{background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:18px 20px;}
+.stat-value{font-size:2rem;font-weight:700;color:var(--accent);}
+.stat-label{font-size:.65rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+.stat-sub{font-size:.68rem;color:var(--muted);margin-top:6px;}
+.tpi{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.tpi-label{font-size:.75rem;font-weight:600;min-width:150px;}
+.tpi-track{flex:1;height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;}
+.tpi-fill{height:100%;background:var(--green);border-radius:3px;transition:width .4s;}
+.tpi-pct{font-size:.62rem;color:var(--muted);min-width:34px;text-align:right;}
+
+/* Sel bar */
+.sel-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:#111;padding:12px 32px;z-index:300;align-items:center;gap:14px;}
+.sel-bar.show{display:flex;}
+.sbi{font-size:.78rem;font-weight:500;color:#ccc;}
+.sbi strong{color:var(--accent);}
+.btn-pdf{display:inline-flex;align-items:center;gap:6px;padding:8px 20px;border-radius:4px;cursor:pointer;font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--accent);border:none;color:#fff;transition:background .14s;margin-left:auto;}
+.btn-pdf:hover{background:#cc0000;}
+.btn-clear{background:none;border:1px solid rgba(255,255,255,.3);color:#ccc;padding:7px 14px;border-radius:4px;cursor:pointer;font-family:var(--sans);font-size:.7rem;font-weight:500;transition:all .13s;}
+.btn-clear:hover{border-color:#fff;color:#fff;}
+
+/* Timer */
+.timer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;align-items:center;justify-content:center;}
+.timer-overlay.show{display:flex;}
+.timer-box{background:#fff;border-radius:12px;padding:36px 48px;text-align:center;min-width:300px;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+.timer-box h2{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px;}
+.timer-prompt{font-size:.85rem;font-weight:500;color:#333;margin-bottom:24px;line-height:1.5;}
+.timer-display{font-size:3.5rem;font-weight:700;color:#111;letter-spacing:-.02em;margin-bottom:8px;}
+.timer-display.warn{color:var(--accent);}
+.timer-display.done{color:var(--green);}
+.timer-sub{font-size:.7rem;color:var(--muted);margin-bottom:28px;}
+.timer-controls{display:flex;gap:10px;justify-content:center;}
+.timer-controls button{padding:10px 22px;border-radius:6px;cursor:pointer;font-family:var(--sans);font-size:.8rem;font-weight:600;border:none;transition:all .14s;}
+.ts{background:var(--accent);color:#fff;}.ts:hover{background:#cc0000;}
+.tc{background:#f0f0f0;color:#444;}.tc:hover{background:#e0e0e0;}
+
+/* Empty bank */
+.empty-bank{text-align:center;padding:80px 20px;}
+.empty-bank-icon{font-size:3rem;opacity:.18;margin-bottom:16px;}
+.empty-bank-title{font-size:1rem;font-weight:700;margin-bottom:8px;}
+.empty-bank-sub{font-size:.78rem;color:var(--muted);line-height:1.6;}
+
+/* ───────────────── ADMIN ───────────────── */
+#adminApp{display:none;background:#f5f5f5;min-height:100vh;font-family:var(--sans);}
+.admin-login{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f5f5;}
+.login-box{background:#fff;border:1.5px solid #e0e0e0;border-radius:12px;padding:48px;width:360px;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,.07);}
+.login-logo{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#FF0000;margin-bottom:32px;}
+.login-title{font-size:1.4rem;font-weight:700;color:#111;margin-bottom:6px;}
+.login-sub{font-size:.72rem;color:#777;margin-bottom:32px;}
+.login-input{width:100%;background:#fafafa;border:1.5px solid #e0e0e0;border-radius:6px;padding:12px 16px;font-family:var(--sans);font-size:.85rem;color:#111;outline:none;transition:border-color .15s;margin-bottom:12px;}
+.login-input:focus{border-color:#FF0000;background:#fff;}
+.login-input::placeholder{color:#bbb;}
+.login-btn{width:100%;padding:12px;background:#FF0000;border:none;border-radius:6px;font-family:var(--sans);font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;cursor:pointer;transition:background .14s;}
+.login-btn:hover{background:#cc0000;}
+.login-err{font-size:.7rem;color:#FF0000;margin-top:10px;display:none;}
+
+.admin-shell{display:none;flex-direction:column;min-height:100vh;}
+.admin-header{background:#fff;border-bottom:2px solid #FF0000;padding:0 32px;height:56px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.admin-logo{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#FF0000;}
+.admin-htitle{font-size:.85rem;font-weight:600;color:#111;}
+.admin-badge{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,0,0,.08);color:#FF0000;padding:3px 8px;border-radius:3px;}
+.admin-logout{margin-left:auto;background:none;border:1.5px solid #e0e0e0;color:#777;padding:6px 14px;border-radius:4px;font-family:var(--sans);font-size:.62rem;font-weight:600;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;transition:all .13s;}
+.admin-logout:hover{border-color:#bbb;color:#333;}
+
+.admin-body{display:grid;grid-template-columns:380px 1fr;flex:1;}
+.admin-sidebar{background:#fff;border-right:1.5px solid #e8e8e8;padding:24px;overflow-y:auto;height:calc(100vh - 56px);position:sticky;top:56px;}
+.asidebar-title{font-size:.58rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#FF0000;margin-bottom:18px;}
+
+/* Form elements */
+.fg{margin-bottom:12px;}
+.fl{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555;display:block;margin-bottom:5px;}
+.fi,.fs,.fta{width:100%;background:#fafafa;border:1.5px solid #e0e0e0;border-radius:5px;padding:9px 12px;font-family:var(--sans);font-size:.78rem;color:#111;outline:none;transition:border-color .15s;}
+.fi:focus,.fs:focus,.fta:focus{border-color:#FF0000;background:#fff;}
+.fi::placeholder,.fta::placeholder{color:#bbb;}
+.fs{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+.fs option{background:#fff;color:#111;}
+.fta{resize:vertical;min-height:80px;line-height:1.5;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* Content type toggle */
+.content-type-toggle{display:flex;gap:0;margin-bottom:14px;border:1.5px solid #e0e0e0;border-radius:6px;overflow:hidden;}
+.ctt-btn{flex:1;padding:9px 0;background:#fafafa;border:none;font-family:var(--sans);font-size:.7rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#888;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.ctt-btn:first-child{border-right:1.5px solid #e0e0e0;}
+.ctt-btn.active{background:#fff0f0;color:#FF0000;}
+.ctt-btn:hover:not(.active){color:#444;background:#f0f0f0;}
+
+/* Image upload zone */
+.img-upload-zone{border:2px dashed #d8d8d8;border-radius:8px;padding:28px 16px;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:#fafafa;}
+.img-upload-zone:hover,.img-upload-zone.drag{border-color:#FF0000;background:#fff5f5;}
+.img-upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.iuz-icon{font-size:1.8rem;opacity:.35;margin-bottom:8px;}
+.iuz-title{font-size:.72rem;font-weight:600;color:#555;margin-bottom:4px;}
+.iuz-sub{font-size:.6rem;color:#aaa;}
+
+/* Image preview */
+.img-preview-wrap{position:relative;margin-bottom:4px;}
+.img-preview{width:100%;border-radius:6px;display:block;max-height:220px;object-fit:contain;background:#f5f5f5;border:1px solid #e8e8e8;}
+.img-preview-clear{position:absolute;top:6px;right:6px;background:rgba(255,255,255,.9);border:1.5px solid #ddd;color:#555;width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.65rem;transition:all .13s;}
+.img-preview-clear:hover{background:#FF0000;border-color:#FF0000;color:#fff;}
+.img-preview-name{font-size:.58rem;color:#aaa;text-align:center;margin-top:4px;}
+
+.asub-btn{width:100%;padding:11px;background:#FF0000;border:none;border-radius:5px;font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;cursor:pointer;transition:background .14s;margin-top:4px;}
+.asub-btn:hover{background:#cc0000;}
+.form-ok{font-size:.65rem;color:#16a34a;text-align:center;padding:7px;background:rgba(22,163,74,.08);border-radius:4px;margin-top:8px;border:1px solid rgba(22,163,74,.2);display:none;}
+.form-err{font-size:.65rem;color:#FF0000;text-align:center;padding:7px;background:rgba(255,0,0,.05);border-radius:4px;margin-top:8px;border:1px solid rgba(255,0,0,.15);display:none;}
+
+/* Admin main */
+.admin-main{padding:24px 28px;overflow-y:auto;height:calc(100vh - 56px);background:#f5f5f5;}
+.admin-main-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap;}
+.amain-title{font-size:.58rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#FF0000;margin-bottom:4px;}
+.aqcount{font-size:.65rem;color:#777;}
+.admin-actions{display:flex;gap:7px;flex-wrap:wrap;}
+.aio-btn{background:#fff;border:1.5px solid #e0e0e0;color:#555;padding:7px 12px;border-radius:4px;font-family:var(--sans);font-size:.6rem;font-weight:600;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;transition:all .13s;}
+.aio-btn:hover{border-color:#bbb;color:#111;}
+.aio-btn.imp{border-color:#c7d7ff;color:#1d4ed8;background:#f0f4ff;}
+.aio-btn.imp:hover{background:#e0eaff;border-color:#a5bfff;}
+.aclear-btn{background:#fff;border:1.5px solid #e0e0e0;color:#999;padding:7px 12px;border-radius:4px;font-family:var(--sans);font-size:.6rem;font-weight:600;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;transition:all .13s;}
+.aclear-btn:hover{border-color:#FF0000;color:#FF0000;background:#fff5f5;}
+
+.afilter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.af{background:#fff;border:1.5px solid #e0e0e0;border-radius:4px;padding:4px 10px;font-family:var(--sans);font-size:.6rem;color:#777;cursor:pointer;transition:all .13s;letter-spacing:.04em;text-transform:uppercase;}
+.af:hover,.af.active{border-color:#FF0000;color:#FF0000;background:#fff5f5;}
+
+.aq-list{display:flex;flex-direction:column;gap:5px;}
+.aqrow{background:#fff;border:1.5px solid #e8e8e8;border-radius:6px;overflow:hidden;transition:border-color .13s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.aqrow:hover{border-color:#ccc;}
+.aqrow-main{padding:10px 14px;display:flex;align-items:center;gap:12px;}
+.aqyear{font-size:1rem;font-weight:700;color:#FF0000;min-width:48px;}
+.aqmeta{flex:1;min-width:0;}
+.aqref{font-size:.72rem;font-weight:600;color:#111;}
+.aqsub{font-size:.6rem;color:#888;margin-top:2px;}
+.aqtags{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px;}
+.atag{font-size:.48rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:2px;}
+.atag.t{background:rgba(255,0,0,.08);color:#cc0000;}
+.atag.m{background:rgba(22,163,74,.08);color:#15803d;}
+.atag.d{background:#f0f0f0;color:#777;}
+.atag.img{background:#eff6ff;color:#1d4ed8;}
+.atag.txt{background:#f5f5f5;color:#888;}
+.adel{background:none;border:1.5px solid #e8e8e8;color:#bbb;width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.7rem;transition:all .13s;flex-shrink:0;}
+.adel:hover{border-color:#FF0000;color:#FF0000;background:#fff5f5;}
+
+/* Admin question preview (expandable) */
+.aqrow-preview{display:none;border-top:1px solid #f0f0f0;padding:12px 14px;background:#fafafa;}
+.aqrow.expanded .aqrow-preview{display:block;}
+.aqrow-preview img{width:100%;border-radius:5px;max-height:200px;object-fit:contain;background:#fff;border:1px solid #e8e8e8;}
+.aqrow-preview pre{font-family:var(--sans);font-size:.75rem;color:#444;white-space:pre-wrap;line-height:1.6;background:#fff;border-radius:5px;padding:10px 12px;border:1px solid #e8e8e8;}
+.aexpand{background:none;border:none;color:#bbb;font-size:.6rem;font-weight:600;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;font-family:var(--sans);transition:color .13s;flex-shrink:0;padding:0 4px;}
+.aexpand:hover{color:#777;}
+
+.admin-empty{text-align:center;padding:60px 20px;color:#ccc;font-size:.78rem;font-style:italic;}
+.admin-empty-icon{font-size:2.5rem;display:block;margin-bottom:12px;opacity:.25;}
+
+/* Answer box selector */
+.ans-box-opt{border:1.5px solid #e0e0e0;border-radius:5px;padding:6px 4px 5px;text-align:center;cursor:pointer;transition:all .13s;background:#fafafa;}
+.ans-box-opt:hover{border-color:#FF0000;background:#fff5f5;}
+.ans-box-opt.active{border-color:#FF0000;background:#fff0f0;}
+.abo-label{font-size:.58rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#888;margin-top:4px;}
+.ans-box-opt.active .abo-label{color:#FF0000;}
+.abo-preview{width:100%;height:28px;overflow:hidden;border-radius:2px;}
+.abo-preview svg{display:block;width:100%;height:100%;}
+
+@media(max-width:768px){
+  header{padding:0 16px;}
+  .page{padding:16px 14px 80px;}
+  .qch{grid-template-columns:48px 32px 1fr auto auto!important;}
+  .qpaper,.qtpill{display:none;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .mock-layout,.admin-body{grid-template-columns:1fr;}
+  .admin-sidebar,.admin-main{height:auto;}
+  .admin-sidebar{position:static;}
+}
+</style>
+</head>
+<body>
+
+<!-- Timer overlay -->
+<div class="timer-overlay" id="timerOverlay">
+  <div class="timer-box">
+    <h2>Timed Practice</h2>
+    <div class="timer-prompt" id="timerPrompt"></div>
+    <div class="timer-display" id="timerDisplay">25:00</div>
+    <div class="timer-sub">Recommended per question allocation</div>
+    <div class="timer-controls">
+      <button class="ts" onclick="stopTimer()">Stop</button>
+      <button class="tc" onclick="closeTimer()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ STUDENT APP ══════════════ -->
+<div id="studentApp">
+  <div class="sel-bar" id="selBar">
+    <div class="sbi"><strong id="selCount">0</strong> questions selected</div>
+    <button class="btn-clear" onclick="clearSelection()">Clear</button>
+    <button class="btn-pdf" onclick="downloadPDF()">⬇ Download PDF</button>
+  </div>
+
+  <header>
+    <div class="hi">
+      <div class="logo">LC Maths · <span style="color:var(--accent);font-weight:700;">HL</span></div>
+      <nav class="nav-tabs">
+        <button class="nt active" onclick="showPage('bank',this)" data-page="bank">📚 Question Bank</button>
+        <button class="nt" onclick="showPage('stats',this)" data-page="stats">✅ My Progress <span class="tbadge" id="progressBadge">0%</span></button>
+      </nav>
+      <div class="progress-wrap" style="margin-left:20px;">
+        <span class="progress-label">Done</span>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <span class="progress-pct" id="progressPct">0%</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="page active" id="page-bank">
+    <div class="section-title">Question Bank</div>
+    <div class="section-sub">Filter by topic, paper, year, type, or difficulty. Select questions to build a custom PDF.</div>
+    <div class="qbc" id="qbControls"></div>
+    <div class="qb-meta" id="qbMeta"></div>
+    <div class="q-list" id="qList"></div>
+  </div>
+
+  <div class="page" id="page-stats">
+    <div class="section-title">My Progress</div>
+    <div class="section-sub">Track which questions you've marked as done.</div>
+    <div class="stats-grid" id="statsGrid"></div>
+    <div style="background:#fafafa;border:1.5px solid var(--border);border-radius:8px;padding:20px;">
+      <div style="font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Progress by topic</div>
+      <div id="topicProgress"></div>
+    </div>
+  </div>
+</div><!-- /studentApp -->
+
+<!-- ══════════════ ADMIN APP ══════════════ -->
+<div id="adminApp">
+  <div class="admin-login" id="adminLogin">
+    <div class="login-box">
+      <div class="login-logo">LC Maths HL · Admin</div>
+      <div class="login-title">Admin Panel</div>
+      <div class="login-sub">Enter your password to manage the question bank</div>
+      <input class="login-input" type="password" id="adminPwInput" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="login-btn" onclick="doLogin()">Sign In</button>
+      <div class="login-err" id="loginErr">Incorrect password.</div>
+    </div>
+  </div>
+
+  <div class="admin-shell" id="adminShell">
+    <div class="admin-header">
+      <div class="admin-logo">LC Maths HL</div>
+      <div class="admin-htitle">Question Manager</div>
+      <div class="admin-badge">Admin</div>
+      <button class="admin-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+    <div class="admin-body">
+
+      <!-- ── Sidebar: Add Question Form ── -->
+      <div class="admin-sidebar">
+        <div class="asidebar-title">Add Question</div>
+
+
+        <!-- Meta -->
+        <div class="fr">
+          <div class="fg"><label class="fl">Year</label><input class="fi" type="number" id="fYear" placeholder="2025" min="2000" max="2099"></div>
+          <div class="fg"><label class="fl">Paper</label><select class="fs" id="fPaper"><option value="1">Paper 1</option><option value="2">Paper 2</option></select></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label class="fl">Q Number</label><input class="fi" type="number" id="fQNum" placeholder="3" min="1" max="10"></div>
+          <div class="fg"><label class="fl">Marks</label><input class="fi" type="number" id="fMarks" placeholder="10" min="1" max="100"></div>
+        </div>
+        <div class="fg"><label class="fl">Topic</label>
+          <select class="fs" id="fTopic">
+            <option value="">Select topic…</option>
+            <option>Calculus</option><option>Algebra &amp; Functions</option><option>Complex Numbers</option>
+            <option>Sequences &amp; Series</option><option>Probability &amp; Statistics</option>
+            <option>Co-ordinate Geometry</option><option>Trigonometry</option><option>Financial Maths</option><option>Proofs</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Subtopic <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><input class="fi" type="text" id="fSubtopic" placeholder="e.g. Integration by Parts"></div>
+        <div class="fr">
+          <div class="fg"><label class="fl">Difficulty</label><select class="fs" id="fDiff"><option value="1">● Easy</option><option value="2" selected>●● Medium</option><option value="3">●●● Hard</option></select></div>
+          <div class="fg"><label class="fl">Type</label><select class="fs" id="fQType"><option value="short">Short Q</option><option value="long" selected>Long Q</option></select></div>
+        </div>
+
+        <!-- Parts tabs -->
+        <div class="fg">
+          <label class="fl">Parts</label>
+          <div style="display:flex;gap:0;border:1.5px solid #e0e0e0;border-radius:6px;overflow:hidden;margin-bottom:10px;">
+            <button class="part-tab active" id="ptabA" onclick="setActivePart('a')">Part a</button>
+            <button class="part-tab" id="ptabB" onclick="setActivePart('b')" style="border-left:1px solid #e0e0e0;">Part b</button>
+            <button class="part-tab" id="ptabC" onclick="setActivePart('c')" style="border-left:1px solid #e0e0e0;">Part c</button>
+          </div>
+          <div id="partPanel_a" class="part-panel">
+            <div class="part-panel-label">Part a</div>
+            <div class="fg"><label class="fl">Required info <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional — info students need from a prior answer)</span></label><textarea class="fta" id="fReqA" placeholder="e.g. Use your value of k from part (a)…" style="min-height:48px;"></textarea></div>
+            <div class="fg"><label class="fl">Content</label>
+              <div class="content-type-toggle"><button class="ctt-btn active" id="cttTextA" onclick="setPartContentType('a','text')">📝 Text</button><button class="ctt-btn" id="cttImageA" onclick="setPartContentType('a','image')" style="border-left:1px solid #e0e0e0;">🖼 Image</button></div>
+              <div id="ctAreaA"><textarea class="fta" id="fTextA" placeholder="Question text…" style="min-height:80px;"></textarea></div>
+              <div id="ciAreaA" style="display:none;"><div id="imgZoneA" class="img-upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handlePartDrop(event,'a')"><input type="file" id="fImgA" accept="image/*" onchange="handlePartImg(event,'a')"><div class="iuz-icon">📷</div><div class="iuz-title">Click or drag & drop</div></div><div id="imgPrevWrapA" style="display:none;"><div class="img-preview-wrap"><img id="imgPrevA" class="img-preview" src="" alt=""><button class="img-preview-clear" onclick="clearPartImg('a')">✕</button></div><div class="img-preview-name" id="imgPrevNameA"></div></div></div>
+            </div>
+            <div class="fg"><label class="fl">Answer Box</label><div style="display:flex;gap:5px;"><div class="ans-box-opt active" id="abA_0" onclick="setPartAB('a',0)" style="flex:1;"><div class="abo-label">None</div></div><div class="ans-box-opt" id="abA_5" onclick="setPartAB('a',5)" style="flex:1;"><div class="abo-preview" id="abpA5"></div><div class="abo-label">5</div></div><div class="ans-box-opt" id="abA_10" onclick="setPartAB('a',10)" style="flex:1;"><div class="abo-preview" id="abpA10"></div><div class="abo-label">10</div></div><div class="ans-box-opt" id="abA_15" onclick="setPartAB('a',15)" style="flex:1;"><div class="abo-preview" id="abpA15"></div><div class="abo-label">15</div></div></div></div>
+            <div class="fg"><label class="fl">Model Answer <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="fAnsA" placeholder="Students tap 'Show Answer' to reveal this…" style="min-height:56px;"></textarea></div>
+            <div class="fg"><label class="fl">Video URL <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><input class="fi" type="url" id="fVidA" placeholder="https://youtube.com/…"></div>
+          </div>
+          <div id="partPanel_b" class="part-panel" style="display:none;">
+            <div class="part-panel-label">Part b <span style="font-weight:400;color:#aaa;font-size:.6rem;">(leave blank to omit)</span></div>
+            <div class="fg"><label class="fl">Required info <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="fReqB" placeholder="e.g. Use your answer from part (a)…" style="min-height:48px;"></textarea></div>
+            <div class="fg"><label class="fl">Content</label>
+              <div class="content-type-toggle"><button class="ctt-btn active" id="cttTextB" onclick="setPartContentType('b','text')">📝 Text</button><button class="ctt-btn" id="cttImageB" onclick="setPartContentType('b','image')" style="border-left:1px solid #e0e0e0;">🖼 Image</button></div>
+              <div id="ctAreaB"><textarea class="fta" id="fTextB" placeholder="Question text…" style="min-height:80px;"></textarea></div>
+              <div id="ciAreaB" style="display:none;"><div id="imgZoneB" class="img-upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handlePartDrop(event,'b')"><input type="file" id="fImgB" accept="image/*" onchange="handlePartImg(event,'b')"><div class="iuz-icon">📷</div><div class="iuz-title">Click or drag & drop</div></div><div id="imgPrevWrapB" style="display:none;"><div class="img-preview-wrap"><img id="imgPrevB" class="img-preview" src="" alt=""><button class="img-preview-clear" onclick="clearPartImg('b')">✕</button></div><div class="img-preview-name" id="imgPrevNameB"></div></div></div>
+            </div>
+            <div class="fg"><label class="fl">Answer Box</label><div style="display:flex;gap:5px;"><div class="ans-box-opt active" id="abB_0" onclick="setPartAB('b',0)" style="flex:1;"><div class="abo-label">None</div></div><div class="ans-box-opt" id="abB_5" onclick="setPartAB('b',5)" style="flex:1;"><div class="abo-preview" id="abpB5"></div><div class="abo-label">5</div></div><div class="ans-box-opt" id="abB_10" onclick="setPartAB('b',10)" style="flex:1;"><div class="abo-preview" id="abpB10"></div><div class="abo-label">10</div></div><div class="ans-box-opt" id="abB_15" onclick="setPartAB('b',15)" style="flex:1;"><div class="abo-preview" id="abpB15"></div><div class="abo-label">15</div></div></div></div>
+            <div class="fg"><label class="fl">Model Answer <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="fAnsB" placeholder="Model answer…" style="min-height:56px;"></textarea></div>
+            <div class="fg"><label class="fl">Video URL <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><input class="fi" type="url" id="fVidB" placeholder="https://youtube.com/…"></div>
+          </div>
+          <div id="partPanel_c" class="part-panel" style="display:none;">
+            <div class="part-panel-label">Part c <span style="font-weight:400;color:#aaa;font-size:.6rem;">(leave blank to omit)</span></div>
+            <div class="fg"><label class="fl">Required info <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="fReqC" placeholder="e.g. Use your value of k from part (b)…" style="min-height:48px;"></textarea></div>
+            <div class="fg"><label class="fl">Content</label>
+              <div class="content-type-toggle"><button class="ctt-btn active" id="cttTextC" onclick="setPartContentType('c','text')">📝 Text</button><button class="ctt-btn" id="cttImageC" onclick="setPartContentType('c','image')" style="border-left:1px solid #e0e0e0;">🖼 Image</button></div>
+              <div id="ctAreaC"><textarea class="fta" id="fTextC" placeholder="Question text…" style="min-height:80px;"></textarea></div>
+              <div id="ciAreaC" style="display:none;"><div id="imgZoneC" class="img-upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handlePartDrop(event,'c')"><input type="file" id="fImgC" accept="image/*" onchange="handlePartImg(event,'c')"><div class="iuz-icon">📷</div><div class="iuz-title">Click or drag & drop</div></div><div id="imgPrevWrapC" style="display:none;"><div class="img-preview-wrap"><img id="imgPrevC" class="img-preview" src="" alt=""><button class="img-preview-clear" onclick="clearPartImg('c')">✕</button></div><div class="img-preview-name" id="imgPrevNameC"></div></div></div>
+            </div>
+            <div class="fg"><label class="fl">Answer Box</label><div style="display:flex;gap:5px;"><div class="ans-box-opt active" id="abC_0" onclick="setPartAB('c',0)" style="flex:1;"><div class="abo-label">None</div></div><div class="ans-box-opt" id="abC_5" onclick="setPartAB('c',5)" style="flex:1;"><div class="abo-preview" id="abpC5"></div><div class="abo-label">5</div></div><div class="ans-box-opt" id="abC_10" onclick="setPartAB('c',10)" style="flex:1;"><div class="abo-preview" id="abpC10"></div><div class="abo-label">10</div></div><div class="ans-box-opt" id="abC_15" onclick="setPartAB('c',15)" style="flex:1;"><div class="abo-preview" id="abpC15"></div><div class="abo-label">15</div></div></div></div>
+            <div class="fg"><label class="fl">Model Answer <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="fAnsC" placeholder="Model answer…" style="min-height:56px;"></textarea></div>
+            <div class="fg"><label class="fl">Video URL <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><input class="fi" type="url" id="fVidC" placeholder="https://youtube.com/…"></div>
+          </div>
+        </div>
+
+        <button class="asub-btn" onclick="addQuestion()">+ Add Question</button>
+        <div class="form-ok" id="formOk">✓ Question added</div>
+        <div class="form-err" id="formErr"></div>
+      </div>
+
+        <div class="admin-main">
+        <div class="admin-main-top">
+          <div>
+            <div class="amain-title">All Questions</div>
+            <div class="aqcount" id="adminQCount">0 questions</div>
+          </div>
+          <div class="admin-actions">
+            <button class="aio-btn imp" onclick="importJSON()">⬆ Load questions.json</button>
+            <button class="aio-btn" onclick="exportJSON()" style="background:#fff0f0;border-color:#ffb3b3;color:#cc0000;font-weight:700;">⬇ Export &amp; Publish</button>
+            <button class="aclear-btn" onclick="clearAll()">Clear All</button>
+          </div>
+        </div>
+        <div style="background:#fffbeb;border:1px solid #f0e0a0;border-radius:6px;padding:10px 14px;margin-bottom:14px;font-size:.68rem;color:#7a5800;line-height:1.6;">
+          <strong>To publish questions to students:</strong> click <em>Export &amp; Publish</em> → it downloads <code style="background:#fff3cd;padding:1px 5px;border-radius:3px;">questions.json</code> → upload that file to your GitHub repository (replacing the old one) → students see the new questions within seconds.
+        </div>
+        <div class="afilter-bar" id="adminFilterBar"></div>
+        <div class="aq-list" id="adminQList"></div>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Edit Modal ── -->
+  <div id="editOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px;">
+    <div style="background:#fff;border-radius:10px;width:100%;max-width:620px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.15);margin:auto;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div style="font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#FF0000;">Edit Question</div>
+        <button onclick="closeEdit()" style="background:none;border:none;font-size:1.1rem;color:#aaa;cursor:pointer;line-height:1;">✕</button>
+      </div>
+      <!-- Meta -->
+      <div class="fr">
+        <div class="fg"><label class="fl">Year</label><input class="fi" type="number" id="eYear" min="2000" max="2099"></div>
+        <div class="fg"><label class="fl">Paper</label><select class="fs" id="ePaper"><option value="1">Paper 1</option><option value="2">Paper 2</option></select></div>
+      </div>
+      <div class="fr">
+        <div class="fg"><label class="fl">Q Number</label><input class="fi" type="number" id="eQNum" min="1" max="10"></div>
+        <div class="fg"><label class="fl">Marks</label><input class="fi" type="number" id="eMarks" min="1" max="100"></div>
+      </div>
+      <div class="fg"><label class="fl">Topic</label>
+        <select class="fs" id="eTopic">
+          <option value="">Select topic…</option>
+          <option>Calculus</option><option>Algebra &amp; Functions</option><option>Complex Numbers</option>
+          <option>Sequences &amp; Series</option><option>Probability &amp; Statistics</option>
+          <option>Co-ordinate Geometry</option><option>Trigonometry</option><option>Financial Maths</option><option>Proofs</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl">Subtopic <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><input class="fi" type="text" id="eSubtopic" placeholder="e.g. Integration by Parts"></div>
+      <div class="fr">
+        <div class="fg"><label class="fl">Difficulty</label><select class="fs" id="eDiff"><option value="1">● Easy</option><option value="2">●● Medium</option><option value="3">●●● Hard</option></select></div>
+        <div class="fg"><label class="fl">Type</label><select class="fs" id="eQType"><option value="short">Short Q</option><option value="long">Long Q</option></select></div>
+      </div>
+      <!-- Edit parts tabs -->
+      <div class="fg">
+        <label class="fl">Parts</label>
+        <div style="display:flex;gap:0;border:1.5px solid #e0e0e0;border-radius:6px;overflow:hidden;margin-bottom:10px;">
+          <button class="part-tab active" id="eptabA" onclick="setEditActivePart('a')">Part a</button>
+          <button class="part-tab" id="eptabB" onclick="setEditActivePart('b')" style="border-left:1px solid #e0e0e0;">Part b</button>
+          <button class="part-tab" id="eptabC" onclick="setEditActivePart('c')" style="border-left:1px solid #e0e0e0;">Part c</button>
+        </div>
+        <div id="epartPanel_a" class="part-panel">
+          <div class="part-panel-label">Part a</div>
+          <div class="fg"><label class="fl">Required info <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="eReqA" style="min-height:48px;" placeholder="e.g. Use your answer from part (a)…"></textarea></div>
+          <div class="fg"><label class="fl">Content</label>
+            <div class="content-type-toggle"><button class="ctt-btn active" id="ecttTextA" onclick="setEditPartCT('a','text')">📝 Text</button><button class="ctt-btn" id="ecttImageA" onclick="setEditPartCT('a','image')" style="border-left:1px solid #e0e0e0;">🖼 Image</button></div>
+            <div id="ectAreaA"><textarea class="fta" id="eTextA" style="min-height:80px;" placeholder="Question text…"></textarea></div>
+            <div id="eciAreaA" style="display:none;"><div id="eimgZoneA" class="img-upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleEditPartDrop(event,'a')"><input type="file" id="eImgA" accept="image/*" onchange="handleEditPartImg(event,'a')"><div class="iuz-icon">📷</div><div class="iuz-title">Click or drag & drop</div></div><div id="eimgPrevWrapA" style="display:none;"><div class="img-preview-wrap"><img id="eimgPrevA" class="img-preview" src="" alt=""><button class="img-preview-clear" onclick="clearEditPartImg('a')">✕</button></div><div class="img-preview-name" id="eimgPrevNameA"></div></div></div>
+          </div>
+          <div class="fg"><label class="fl">Answer Box</label><div style="display:flex;gap:5px;"><div class="ans-box-opt" id="eabA_0" onclick="setEditPartAB('a',0)" style="flex:1;"><div class="abo-label">None</div></div><div class="ans-box-opt" id="eabA_5" onclick="setEditPartAB('a',5)" style="flex:1;"><div class="abo-preview" id="eabpA5"></div><div class="abo-label">5</div></div><div class="ans-box-opt" id="eabA_10" onclick="setEditPartAB('a',10)" style="flex:1;"><div class="abo-preview" id="eabpA10"></div><div class="abo-label">10</div></div><div class="ans-box-opt" id="eabA_15" onclick="setEditPartAB('a',15)" style="flex:1;"><div class="abo-preview" id="eabpA15"></div><div class="abo-label">15</div></div></div></div>
+          <div class="fg"><label class="fl">Model Answer <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="eAnsA" style="min-height:56px;" placeholder="Model answer…"></textarea></div>
+          <div class="fg"><label class="fl">Video URL <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><input class="fi" type="url" id="eVidA" placeholder="https://youtube.com/…"></div>
+        </div>
+        <div id="epartPanel_b" class="part-panel" style="display:none;">
+          <div class="part-panel-label">Part b <span style="font-weight:400;color:#aaa;font-size:.6rem;">(leave blank to omit)</span></div>
+          <div class="fg"><label class="fl">Required info <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="eReqB" style="min-height:48px;" placeholder="e.g. Use your answer from part (a)…"></textarea></div>
+          <div class="fg"><label class="fl">Content</label>
+            <div class="content-type-toggle"><button class="ctt-btn active" id="ecttTextB" onclick="setEditPartCT('b','text')">📝 Text</button><button class="ctt-btn" id="ecttImageB" onclick="setEditPartCT('b','image')" style="border-left:1px solid #e0e0e0;">🖼 Image</button></div>
+            <div id="ectAreaB"><textarea class="fta" id="eTextB" style="min-height:80px;" placeholder="Question text…"></textarea></div>
+            <div id="eciAreaB" style="display:none;"><div id="eimgZoneB" class="img-upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleEditPartDrop(event,'b')"><input type="file" id="eImgB" accept="image/*" onchange="handleEditPartImg(event,'b')"><div class="iuz-icon">📷</div><div class="iuz-title">Click or drag & drop</div></div><div id="eimgPrevWrapB" style="display:none;"><div class="img-preview-wrap"><img id="eimgPrevB" class="img-preview" src="" alt=""><button class="img-preview-clear" onclick="clearEditPartImg('b')">✕</button></div><div class="img-preview-name" id="eimgPrevNameB"></div></div></div>
+          </div>
+          <div class="fg"><label class="fl">Answer Box</label><div style="display:flex;gap:5px;"><div class="ans-box-opt" id="eabB_0" onclick="setEditPartAB('b',0)" style="flex:1;"><div class="abo-label">None</div></div><div class="ans-box-opt" id="eabB_5" onclick="setEditPartAB('b',5)" style="flex:1;"><div class="abo-preview" id="eabpB5"></div><div class="abo-label">5</div></div><div class="ans-box-opt" id="eabB_10" onclick="setEditPartAB('b',10)" style="flex:1;"><div class="abo-preview" id="eabpB10"></div><div class="abo-label">10</div></div><div class="ans-box-opt" id="eabB_15" onclick="setEditPartAB('b',15)" style="flex:1;"><div class="abo-preview" id="eabpB15"></div><div class="abo-label">15</div></div></div></div>
+          <div class="fg"><label class="fl">Model Answer <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="eAnsB" style="min-height:56px;" placeholder="Model answer…"></textarea></div>
+          <div class="fg"><label class="fl">Video URL <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><input class="fi" type="url" id="eVidB" placeholder="https://youtube.com/…"></div>
+        </div>
+        <div id="epartPanel_c" class="part-panel" style="display:none;">
+          <div class="part-panel-label">Part c <span style="font-weight:400;color:#aaa;font-size:.6rem;">(leave blank to omit)</span></div>
+          <div class="fg"><label class="fl">Required info <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="eReqC" style="min-height:48px;" placeholder="e.g. Use your answer from part (b)…"></textarea></div>
+          <div class="fg"><label class="fl">Content</label>
+            <div class="content-type-toggle"><button class="ctt-btn active" id="ecttTextC" onclick="setEditPartCT('c','text')">📝 Text</button><button class="ctt-btn" id="ecttImageC" onclick="setEditPartCT('c','image')" style="border-left:1px solid #e0e0e0;">🖼 Image</button></div>
+            <div id="ectAreaC"><textarea class="fta" id="eTextC" style="min-height:80px;" placeholder="Question text…"></textarea></div>
+            <div id="eciAreaC" style="display:none;"><div id="eimgZoneC" class="img-upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleEditPartDrop(event,'c')"><input type="file" id="eImgC" accept="image/*" onchange="handleEditPartImg(event,'c')"><div class="iuz-icon">📷</div><div class="iuz-title">Click or drag & drop</div></div><div id="eimgPrevWrapC" style="display:none;"><div class="img-preview-wrap"><img id="eimgPrevC" class="img-preview" src="" alt=""><button class="img-preview-clear" onclick="clearEditPartImg('c')">✕</button></div><div class="img-preview-name" id="eimgPrevNameC"></div></div></div>
+          </div>
+          <div class="fg"><label class="fl">Answer Box</label><div style="display:flex;gap:5px;"><div class="ans-box-opt" id="eabC_0" onclick="setEditPartAB('c',0)" style="flex:1;"><div class="abo-label">None</div></div><div class="ans-box-opt" id="eabC_5" onclick="setEditPartAB('c',5)" style="flex:1;"><div class="abo-preview" id="eabpC5"></div><div class="abo-label">5</div></div><div class="ans-box-opt" id="eabC_10" onclick="setEditPartAB('c',10)" style="flex:1;"><div class="abo-preview" id="eabpC10"></div><div class="abo-label">10</div></div><div class="ans-box-opt" id="eabC_15" onclick="setEditPartAB('c',15)" style="flex:1;"><div class="abo-preview" id="eabpC15"></div><div class="abo-label">15</div></div></div></div>
+          <div class="fg"><label class="fl">Model Answer <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><textarea class="fta" id="eAnsC" style="min-height:56px;" placeholder="Model answer…"></textarea></div>
+          <div class="fg"><label class="fl">Video URL <span style="font-weight:400;text-transform:none;font-size:.55rem;color:#aaa;">(optional)</span></label><input class="fi" type="url" id="eVidC" placeholder="https://youtube.com/…"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:6px;">
+        <button onclick="saveEdit()" style="flex:1;padding:11px;background:#FF0000;border:none;border-radius:5px;font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;cursor:pointer;">Save Changes</button>
+        <button onclick="closeEdit()" style="padding:11px 20px;background:#f5f5f5;border:1.5px solid #e0e0e0;border-radius:5px;font-family:var(--sans);font-size:.72rem;font-weight:600;color:#555;cursor:pointer;">Cancel</button>
+      </div>
+      <div class="form-ok" id="editOk" style="margin-top:8px;">✓ Saved</div>
+      <div class="form-err" id="editErr" style="margin-top:8px;"></div>
+    </div>
+  </div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════════
+var ADMIN_PW = 'lcmaths2026';
+var TOPICS = ['Calculus','Algebra & Functions','Complex Numbers','Sequences & Series','Probability & Statistics','Co-ordinate Geometry','Trigonometry','Financial Maths','Proofs'];
+var TOPIC_SHORT = {'Calculus':'Calculus','Algebra & Functions':'Algebra','Complex Numbers':'Complex','Sequences & Series':'Sequences','Probability & Statistics':'Probability','Co-ordinate Geometry':'Coordinate','Trigonometry':'Trigonometry','Financial Maths':'Financial','Proofs':'Proofs'};
+var TIPS_DEFAULT = {
+  'Calculus':['Differentiation and integration both appear every year.','Know integration by parts, substitution, and area between curves.','Maclaurin series has appeared 4 times in 10 years — know the derivation.'],
+  'Algebra & Functions':['Factor/remainder theorem appears consistently.','Know how to sketch rational functions — asymptotes and turning points.'],
+  'Complex Numbers':['De Moivre\'s theorem is almost always tested — know roots of unity.','Converting between rectangular and polar form is a guaranteed entry point.'],
+  'Sequences & Series':['Arithmetic and geometric series sum formulas must be known cold.','Proof by induction for series appears nearly every year.'],
+  'Probability & Statistics':['Normal distribution is tested every year — know how to standardise.','Hypothesis testing has become increasingly frequent.'],
+  'Co-ordinate Geometry':['Line and circle questions both appear — usually one of each.','Tangent to a circle is tested almost every year.'],
+  'Trigonometry':['Compound angle formulas must be known — derivation sometimes required.','3D trigonometry appears regularly.'],
+  'Financial Maths':['Compound interest, present value, and AER appear in almost every Paper 1 short section.','Loan repayment schedules and outstanding balance are long-question staples.'],
+  'Proofs':['Proof by induction: base case, assumption, inductive step, conclusion.','Never skip the concluding statement — examiners deduct marks for this.']
+};
+
+// ═══════════════════════════════════════════════════════
+// STORAGE — questions come from questions.json on GitHub.
+// Revised/difficulty state stays in localStorage (per-student).
+// ═══════════════════════════════════════════════════════
+var _mem = {};
+var _storageOk = (function(){
+  try { localStorage.setItem('_t','1'); localStorage.removeItem('_t'); return true; }
+  catch(e){ return false; }
+})();
+function _lsGet(k){ try{ return _storageOk ? localStorage.getItem(k) : (_mem[k]||null); }catch(e){ return _mem[k]||null; } }
+function _lsSet(k,v){ try{ if(_storageOk){ localStorage.setItem(k,v); } else { _mem[k]=v; } }catch(e){ _mem[k]=v; } }
+
+// Runtime question store — populated by fetch on load, or by admin actions
+var _questions = [];
+function loadQS(){ return _questions; }
+function saveQS(a){ _questions = a; }
+
+function loadRevised(){try{return JSON.parse(_lsGet('lc_hl_rev')||'{}');}catch(e){return{};}}
+function saveRevised(o){try{_lsSet('lc_hl_rev',JSON.stringify(o));}catch(e){}}
+var revised = loadRevised();
+var diffOv = {};
+try{diffOv=JSON.parse(_lsGet('lc_hl_diff')||'{}');}catch(e){}
+function saveDiffOv(){try{_lsSet('lc_hl_diff',JSON.stringify(diffOv));}catch(e){}}
+
+// ═══════════════════════════════════════════════════════
+// ROUTING — safe, works in sandboxed iframes
+// ═══════════════════════════════════════════════════════
+var IS_ADMIN = false;
+(function(){
+  try {
+    var search = (window.location && window.location.search) ? window.location.search : '';
+    try { IS_ADMIN = new URLSearchParams(search).get('admin')==='1'; }
+    catch(e){ IS_ADMIN = search.indexOf('admin=1') !== -1; }
+    if(IS_ADMIN){
+      document.getElementById('studentApp').style.display='none';
+      document.getElementById('adminApp').style.display='block';
+    }
+  } catch(e) {}
+})();
+
+// ═══════════════════════════════════════════════════════
+// ADMIN AUTH
+// ═══════════════════════════════════════════════════════
+function doLogin(){
+  if(document.getElementById('adminPwInput').value===ADMIN_PW){
+    document.getElementById('adminLogin').style.display='none';
+    document.getElementById('adminShell').style.display='flex';
+    renderAdminList(); renderAdminFilters();
+    setTimeout(function(){initPartPreviews();},50);
+  } else {
+    document.getElementById('loginErr').style.display='block';
+    document.getElementById('adminPwInput').value='';
+    document.getElementById('adminPwInput').focus();
+  }
+}
+function doLogout(){
+  document.getElementById('adminShell').style.display='none';
+  document.getElementById('adminLogin').style.display='flex';
+  document.getElementById('adminPwInput').value='';
+  document.getElementById('loginErr').style.display='none';
+}
+
+// ═══════════════════════════════════════════════════════
+// ADMIN: MULTI-PART FORM STATE
+// ═══════════════════════════════════════════════════════
+var activePart = 'a';
+var partContentType = {a:'text', b:'text', c:'text'};
+var partImageB64   = {a:null,  b:null,  c:null};
+var partAB         = {a:0,     b:0,     c:0};
+
+function setActivePart(p){
+  activePart = p;
+  ['a','b','c'].forEach(function(x){
+    document.getElementById('ptab'+x.toUpperCase()).classList.toggle('active', x===p);
+    document.getElementById('partPanel_'+x).style.display = x===p ? 'block' : 'none';
+  });
+}
+
+function setPartContentType(part, type){
+  partContentType[part] = type;
+  var P = part.toUpperCase();
+  document.getElementById('cttText'+P).classList.toggle('active', type==='text');
+  document.getElementById('cttImage'+P).classList.toggle('active', type==='image');
+  document.getElementById('ctArea'+P).style.display  = type==='text'  ? 'block' : 'none';
+  document.getElementById('ciArea'+P).style.display  = type==='image' ? 'block' : 'none';
+}
+
+function handlePartImg(e, part){
+  var f = e.target.files[0]; if(f) loadPartImage(f, part);
+}
+function handlePartDrop(e, part){
+  e.preventDefault();
+  document.getElementById('imgZone'+part.toUpperCase()).classList.remove('drag');
+  var f = e.dataTransfer.files[0];
+  if(f && f.type.startsWith('image/')) loadPartImage(f, part);
+}
+function loadPartImage(file, part){
+  var P = part.toUpperCase();
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    partImageB64[part] = ev.target.result;
+    document.getElementById('imgPrev'+P).src = ev.target.result;
+    document.getElementById('imgPrevName'+P).textContent = file.name;
+    document.getElementById('imgZone'+P).style.display = 'none';
+    document.getElementById('imgPrevWrap'+P).style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+function clearPartImg(part){
+  var P = part.toUpperCase();
+  partImageB64[part] = null;
+  document.getElementById('imgPrev'+P).src = '';
+  document.getElementById('imgPrevName'+P).textContent = '';
+  document.getElementById('fImg'+P).value = '';
+  document.getElementById('imgZone'+P).style.display = 'block';
+  document.getElementById('imgPrevWrap'+P).style.display = 'none';
+}
+
+function setPartAB(part, n){
+  partAB[part] = n;
+  var P = part.toUpperCase();
+  [0,5,10,15].forEach(function(v){
+    var el = document.getElementById('ab'+P+'_'+v);
+    if(el) el.classList.toggle('active', v===n);
+  });
+}
+
+function initPartPreviews(){
+  ['a','b','c'].forEach(function(part){
+    var P = part.toUpperCase();
+    [5,10,15].forEach(function(n){
+      var el = document.getElementById('abp'+P+n);
+      if(el) el.innerHTML = buildGridSVG(n, 80, 28);
+    });
+  });
+}
+
+function resetAddForm(){
+  ['fYear','fQNum','fMarks','fSubtopic'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('fTopic').value='';
+  ['a','b','c'].forEach(function(part){
+    var P = part.toUpperCase();
+    partContentType[part]='text'; partImageB64[part]=null; partAB[part]=0;
+    var ta=document.getElementById('fText'+P); if(ta) ta.value='';
+    var req=document.getElementById('fReq'+P); if(req) req.value='';
+    var ans=document.getElementById('fAns'+P); if(ans) ans.value='';
+    var vid=document.getElementById('fVid'+P); if(vid) vid.value='';
+    setPartContentType(part,'text');
+    setPartAB(part,0);
+    clearPartImg(part);
+  });
+  setActivePart('a');
+}
+
+// ═══════════════════════════════════════════════════════
+// ADMIN: ADD QUESTION (multi-part)
+// ═══════════════════════════════════════════════════════
+function addQuestion(){
+  var year  = parseInt(document.getElementById('fYear').value);
+  var paper = parseInt(document.getElementById('fPaper').value);
+  var qNum  = parseInt(document.getElementById('fQNum').value);
+  var topic = document.getElementById('fTopic').value;
+  var sub   = document.getElementById('fSubtopic').value.trim();
+  var marks = parseInt(document.getElementById('fMarks').value);
+  var diff  = parseInt(document.getElementById('fDiff').value);
+  var qType = document.getElementById('fQType').value;
+
+  var ok=document.getElementById('formOk'), er=document.getElementById('formErr');
+  ok.style.display='none'; er.style.display='none';
+
+  if(!year||year<2000||year>2099){showFErr('Enter a valid year.');return;}
+  if(!qNum||qNum<1){showFErr('Enter a valid question number.');return;}
+  if(!topic){showFErr('Select a topic.');return;}
+  if(!marks||marks<1){showFErr('Enter valid marks.');return;}
+
+  // Build parts array — include part if it has any content
+  var parts = [];
+  ['a','b','c'].forEach(function(part){
+    var P = part.toUpperCase();
+    var txt = (document.getElementById('fText'+P)||{}).value||'';
+    var img = partImageB64[part];
+    var req = (document.getElementById('fReq'+P)||{}).value||'';
+    var ans = (document.getElementById('fAns'+P)||{}).value||'';
+    var vid = (document.getElementById('fVid'+P)||{}).value||'';
+    var hasContent = (partContentType[part]==='text' && txt.trim()) ||
+                     (partContentType[part]==='image' && img);
+    // Include part if it has content OR if it's part a (always include a)
+    if(part==='a' || hasContent || req.trim() || ans.trim() || vid.trim()){
+      parts.push({
+        part: part,
+        requiredInfo: req.trim()||null,
+        contentType: partContentType[part],
+        contentText: partContentType[part]==='text' ? (txt.trim()||null) : null,
+        contentImage: partContentType[part]==='image' ? (img||null) : null,
+        answerBoxRows: partAB[part],
+        modelAnswer: ans.trim()||null,
+        videoUrl: vid.trim()||null
+      });
+    }
+  });
+
+  var q = {
+    id: Date.now()+Math.floor(Math.random()*9999),
+    year:year, paper:paper, qNum:qNum,
+    topic:topic, subtopic:sub||null, marks:marks, diff:diff, qType:qType,
+    parts: parts
+  };
+
+  var qs=loadQS(); qs.push(q); saveQS(qs);
+  ok.style.display='block';
+  setTimeout(function(){ok.style.display='none';},2500);
+  resetAddForm();
+  renderAdminList(); renderAdminFilters();
+}
+function showFErr(m){var e=document.getElementById('formErr');e.textContent=m;e.style.display='block';}
+
+// ═══════════════════════════════════════════════════════
+// SVG HELPERS
+// ═══════════════════════════════════════════════════════
+function buildGridSVG(rows, w, h){
+  var cs=14, cols=Math.floor(w/cs), lines='';
+  for(var c=1;c<cols;c++) lines+='<line x1="'+(c*cs)+'" y1="0" x2="'+(c*cs)+'" y2="'+h+'" stroke="#ccc" stroke-width=".5"/>';
+  for(var r=1;r<rows;r++) lines+='<line x1="0" y1="'+(r*cs)+'" x2="'+w+'" y2="'+(r*cs)+'" stroke="#ccc" stroke-width=".5"/>';
+  return '<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="'+w+'" height="'+h+'" fill="#fff" stroke="#e0e0e0" stroke-width="1"/>'+lines+'</svg>';
+}
+function buildAnswerBoxSVG(rows){
+  var cs=18, W=540, totalH=rows*cs, cols=Math.floor(W/cs), lines='';
+  for(var c=1;c<cols;c++) lines+='<line x1="'+(c*cs)+'" y1="0" x2="'+(c*cs)+'" y2="'+totalH+'" stroke="#c8c8c8" stroke-width=".6"/>';
+  for(var r=1;r<rows;r++) lines+='<line x1="0" y1="'+(r*cs)+'" x2="'+W+'" y2="'+(r*cs)+'" stroke="#c8c8c8" stroke-width=".6"/>';
+  return '<svg viewBox="0 0 '+W+' '+totalH+'" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;width:100%;height:auto;"><rect width="'+W+'" height="'+totalH+'" fill="#fff"/>'+lines+'</svg>';
+}
+
+// ═══════════════════════════════════════════════════════
+// ADMIN: LIST
+// ═══════════════════════════════════════════════════════
+var adminFilter = 'all';
+
+function renderAdminFilters(){
+  var qs=loadQS();
+  var present=TOPICS.filter(function(t){return qs.some(function(q){return q.topic===t;});});
+  var h='<div class="af'+(adminFilter==='all'?' active':'')+'" onclick="setAF(\'all\')">All</div>';
+  present.forEach(function(t){
+    h+='<div class="af'+(adminFilter===t?' active':'')+'" onclick="setAF(\''+t.replace(/'/g,"\\'")+'\')">'+t+'</div>';
+  });
+  document.getElementById('adminFilterBar').innerHTML=h;
+}
+
+function setAF(t){adminFilter=t;renderAdminFilters();renderAdminList();}
+
+function renderAdminList(){
+  var qs=loadQS();
+  var filtered = adminFilter==='all' ? qs : qs.filter(function(q){return q.topic===adminFilter;});
+  filtered = filtered.slice().sort(function(a,b){return b.year-a.year||a.paper-b.paper||a.qNum-b.qNum;});
+  document.getElementById('adminQCount').textContent = qs.length+' question'+(qs.length!==1?'s':'')+' in bank';
+
+  if(!filtered.length){
+    document.getElementById('adminQList').innerHTML='<div class="admin-empty"><span class="admin-empty-icon">📭</span>No questions yet. Add one using the form on the left.</div>';
+    return;
+  }
+
+  var dl=['','Easy','Medium','Hard'];
+  var h='';
+  filtered.forEach(function(q){
+    var parts = q.parts || [];
+    var partLabels = parts.map(function(p){return '('+p.part+')';}).join(' ');
+    h+='<div class="aqrow" id="aqrow'+q.id+'">';
+    h+='<div class="aqrow-main">';
+    h+='<div class="aqyear">'+q.year+'</div>';
+    h+='<div class="aqmeta">';
+    h+='<div class="aqref">P'+q.paper+' · Q'+q.qNum+' · '+(q.subtopic||q.topic)+'</div>';
+    h+='<div class="aqsub">'+(q.qType==='short'?'Short':'Long')+' Q · '+q.marks+' marks · '+parts.length+' part'+(parts.length!==1?'s':'')+' '+partLabels+'</div>';
+    h+='<div class="aqtags">';
+    h+='<span class="atag t">'+q.topic+'</span>';
+    h+='<span class="atag m">'+q.marks+'m</span>';
+    h+='<span class="atag d">'+dl[q.diff]+'</span>';
+    parts.forEach(function(p){
+      if(p.modelAnswer) h+='<span class="atag" style="background:#f0fdf4;color:#15803d;">✓ ans ('+p.part+')</span>';
+      if(p.videoUrl)    h+='<span class="atag" style="background:#eff6ff;color:#1d4ed8;">▶ vid ('+p.part+')</span>';
+    });
+    h+='</div></div>';
+    h+='<button class="aexpand" style="color:#1d4ed8;" onclick="openEdit('+q.id+')">Edit ✎</button>';
+    h+='<button class="adel" onclick="delQ('+q.id+')" title="Delete">✕</button>';
+    h+='</div></div>';
+  });
+  document.getElementById('adminQList').innerHTML=h;
+}
+
+function toggleAQPreview(id){
+  var row=document.getElementById('aqrow'+id);
+  if(row) row.classList.toggle('expanded');
+}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function delQ(id){
+  if(!confirm('Delete this question?'))return;
+  saveQS(loadQS().filter(function(q){return q.id!==id;}));
+  renderAdminList(); renderAdminFilters();
+}
+function clearAll(){
+  if(!confirm('Delete ALL questions? This cannot be undone.'))return;
+  saveQS([]); renderAdminList(); renderAdminFilters();
+}
+
+// ═══════════════════════════════════════════════════════
+// ADMIN: EDIT MODAL — multi-part
+// ═══════════════════════════════════════════════════════
+var editingId = null;
+var editPartCT  = {a:'text', b:'text', c:'text'};
+var editPartImg = {a:null,   b:null,   c:null};
+var editPartABv = {a:0,      b:0,      c:0};
+var editActivePt = 'a';
+
+function setEditActivePart(p){
+  editActivePt = p;
+  ['a','b','c'].forEach(function(x){
+    document.getElementById('eptab'+x.toUpperCase()).classList.toggle('active', x===p);
+    document.getElementById('epartPanel_'+x).style.display = x===p ? 'block' : 'none';
+  });
+}
+
+function setEditPartCT(part, type){
+  editPartCT[part] = type;
+  var P = part.toUpperCase();
+  document.getElementById('ecttText'+P).classList.toggle('active', type==='text');
+  document.getElementById('ecttImage'+P).classList.toggle('active', type==='image');
+  document.getElementById('ectArea'+P).style.display  = type==='text'  ? 'block' : 'none';
+  document.getElementById('eciArea'+P).style.display  = type==='image' ? 'block' : 'none';
+}
+
+function handleEditPartImg(e, part){
+  var f = e.target.files[0]; if(f) loadEditPartImage(f, part);
+}
+function handleEditPartDrop(e, part){
+  e.preventDefault();
+  document.getElementById('eimgZone'+part.toUpperCase()).classList.remove('drag');
+  var f = e.dataTransfer.files[0];
+  if(f && f.type.startsWith('image/')) loadEditPartImage(f, part);
+}
+function loadEditPartImage(file, part){
+  var P = part.toUpperCase();
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    editPartImg[part] = ev.target.result;
+    document.getElementById('eimgPrev'+P).src = ev.target.result;
+    document.getElementById('eimgPrevName'+P).textContent = file.name;
+    document.getElementById('eimgZone'+P).style.display = 'none';
+    document.getElementById('eimgPrevWrap'+P).style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+function clearEditPartImg(part){
+  var P = part.toUpperCase();
+  editPartImg[part] = null;
+  document.getElementById('eimgPrev'+P).src = '';
+  document.getElementById('eimgPrevName'+P).textContent = '';
+  document.getElementById('eImg'+P).value = '';
+  document.getElementById('eimgZone'+P).style.display = 'block';
+  document.getElementById('eimgPrevWrap'+P).style.display = 'none';
+}
+function setEditPartAB(part, n){
+  editPartABv[part] = n;
+  var P = part.toUpperCase();
+  [0,5,10,15].forEach(function(v){
+    var el = document.getElementById('eab'+P+'_'+v);
+    if(el) el.classList.toggle('active', v===n);
+  });
+}
+
+function initEditPreviews(){
+  ['a','b','c'].forEach(function(part){
+    var P = part.toUpperCase();
+    [5,10,15].forEach(function(n){
+      var el = document.getElementById('eabp'+P+n);
+      if(el) el.innerHTML = buildGridSVG(n, 80, 28);
+    });
+  });
+}
+
+function openEdit(id){
+  var qs = loadQS();
+  var q = null;
+  for(var i=0;i<qs.length;i++){ if(qs[i].id===id){ q=qs[i]; break; } }
+  if(!q) return;
+  editingId = id;
+
+  // Fill meta fields
+  document.getElementById('eYear').value  = q.year;
+  document.getElementById('ePaper').value = q.paper;
+  document.getElementById('eQNum').value  = q.qNum;
+  document.getElementById('eMarks').value = q.marks;
+  document.getElementById('eTopic').value = q.topic;
+  document.getElementById('eSubtopic').value = q.subtopic || '';
+  document.getElementById('eDiff').value  = q.diff;
+  document.getElementById('eQType').value = q.qType;
+
+  // Reset edit part state
+  editPartCT  = {a:'text', b:'text', c:'text'};
+  editPartImg = {a:null,   b:null,   c:null};
+  editPartABv = {a:0,      b:0,      c:0};
+
+  // Clear all part fields first
+  ['a','b','c'].forEach(function(part){
+    var P = part.toUpperCase();
+    var req = document.getElementById('eReq'+P); if(req) req.value = '';
+    var txt = document.getElementById('eText'+P); if(txt) txt.value = '';
+    var ans = document.getElementById('eAns'+P); if(ans) ans.value = '';
+    var vid = document.getElementById('eVid'+P); if(vid) vid.value = '';
+    setEditPartCT(part, 'text');
+    setEditPartAB(part, 0);
+    clearEditPartImg(part);
+  });
+
+  // Populate from parts array
+  var parts = q.parts || [];
+  // Legacy: no parts array
+  if(!parts.length && (q.contentText || q.contentImage)){
+    parts = [{part:'a', contentType:q.contentType||'text', contentText:q.contentText||null,
+              contentImage:q.contentImage||null, answerBoxRows:q.answerBoxRows||0,
+              modelAnswer:null, videoUrl:null, requiredInfo:null}];
+  }
+  parts.forEach(function(p){
+    var part = p.part;
+    var P = part.toUpperCase();
+    var req = document.getElementById('eReq'+P); if(req) req.value = p.requiredInfo||'';
+    var ans = document.getElementById('eAns'+P); if(ans) ans.value = p.modelAnswer||'';
+    var vid = document.getElementById('eVid'+P); if(vid) vid.value = p.videoUrl||'';
+    setEditPartCT(part, p.contentType||'text');
+    setEditPartAB(part, p.answerBoxRows||0);
+    if(p.contentType==='text'){
+      var txt = document.getElementById('eText'+P); if(txt) txt.value = p.contentText||'';
+    } else if(p.contentType==='image' && p.contentImage){
+      editPartImg[part] = p.contentImage;
+      document.getElementById('eimgPrev'+P).src = p.contentImage;
+      document.getElementById('eimgPrevName'+P).textContent = 'Current image';
+      document.getElementById('eimgZone'+P).style.display = 'none';
+      document.getElementById('eimgPrevWrap'+P).style.display = 'block';
+    }
+  });
+
+  document.getElementById('editOk').style.display  = 'none';
+  document.getElementById('editErr').style.display = 'none';
+  setEditActivePart('a');
+
+  var ov = document.getElementById('editOverlay');
+  ov.style.display = 'flex';
+  setTimeout(function(){ initEditPreviews(); }, 30);
+}
+
+function closeEdit(){
+  document.getElementById('editOverlay').style.display = 'none';
+  editingId = null;
+}
+
+function saveEdit(){
+  if(!editingId) return;
+  var year  = parseInt(document.getElementById('eYear').value);
+  var paper = parseInt(document.getElementById('ePaper').value);
+  var qNum  = parseInt(document.getElementById('eQNum').value);
+  var marks = parseInt(document.getElementById('eMarks').value);
+  var topic = document.getElementById('eTopic').value;
+  var sub   = document.getElementById('eSubtopic').value.trim();
+  var diff  = parseInt(document.getElementById('eDiff').value);
+  var qType = document.getElementById('eQType').value;
+
+  var ok = document.getElementById('editOk'), er = document.getElementById('editErr');
+  ok.style.display='none'; er.style.display='none';
+
+  if(!year||year<2000||year>2099){er.textContent='Enter a valid year.';er.style.display='block';return;}
+  if(!qNum||qNum<1){er.textContent='Enter a valid question number.';er.style.display='block';return;}
+  if(!topic){er.textContent='Select a topic.';er.style.display='block';return;}
+  if(!marks||marks<1){er.textContent='Enter valid marks.';er.style.display='block';return;}
+
+  // Build parts
+  var parts = [];
+  ['a','b','c'].forEach(function(part){
+    var P = part.toUpperCase();
+    var txt = (document.getElementById('eText'+P)||{}).value||'';
+    var img = editPartImg[part];
+    var req = (document.getElementById('eReq'+P)||{}).value||'';
+    var ans = (document.getElementById('eAns'+P)||{}).value||'';
+    var vid = (document.getElementById('eVid'+P)||{}).value||'';
+    var hasContent = (editPartCT[part]==='text' && txt.trim()) ||
+                     (editPartCT[part]==='image' && img);
+    if(part==='a' || hasContent || req.trim() || ans.trim() || vid.trim()){
+      parts.push({
+        part: part,
+        requiredInfo:  req.trim()||null,
+        contentType:   editPartCT[part],
+        contentText:   editPartCT[part]==='text' ? (txt.trim()||null) : null,
+        contentImage:  editPartCT[part]==='image' ? (img||null) : null,
+        answerBoxRows: editPartABv[part],
+        modelAnswer:   ans.trim()||null,
+        videoUrl:      vid.trim()||null
+      });
+    }
+  });
+
+  var qs = loadQS();
+  var idx = -1;
+  for(var i=0;i<qs.length;i++){ if(qs[i].id===editingId){ idx=i; break; } }
+  if(idx===-1){ er.textContent='Question not found.'; er.style.display='block'; return; }
+
+  qs[idx] = {
+    id: editingId,
+    year:year, paper:paper, qNum:qNum,
+    topic:topic, subtopic:sub||null, marks:marks, diff:diff, qType:qType,
+    parts: parts
+  };
+  saveQS(qs);
+  ok.style.display = 'block';
+  setTimeout(function(){ closeEdit(); renderAdminList(); renderAdminFilters(); }, 800);
+}
+
+// ═══════════════════════════════════════════════════════
+// ADMIN: IMPORT / EXPORT / PUBLISH
+// ═══════════════════════════════════════════════════════
+function exportJSON(){
+  // Always exports as questions.json — ready to upload to GitHub
+  var blob=new Blob([JSON.stringify(loadQS(),null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url; a.download='questions.json'; a.click();
+  setTimeout(function(){URL.revokeObjectURL(url);},5000);
+}
+function importJSON(){document.getElementById('importFile').click();}
+function handleImport(e){
+  var file=e.target.files[0]; if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      var imp=JSON.parse(ev.target.result);
+      if(!Array.isArray(imp))throw new Error();
+      saveQS(imp);
+      renderAdminList(); renderAdminFilters();
+      alert('Loaded '+imp.length+' questions.');
+    }catch(err){alert('Import failed — invalid JSON.');}
+    e.target.value='';
+  };
+  reader.readAsText(file);
+}
+
+// ═══════════════════════════════════════════════════════
+// STUDENT: HELPERS
+// ═══════════════════════════════════════════════════════
+function qKey(q){return'q'+q.id;}
+function getQDiff(q){return diffOv['d'+q.id]||q.diff;}
+function topicClass(t){return'tc-'+(TOPIC_SHORT[t]||'Calculus');}
+function buildDots(qId,cd,sid){
+  var labels=['','Easy','Medium','Hard'],h='';
+  for(var i=1;i<=3;i++){
+    var f=i<=cd;
+    h+='<span class="ddot'+(f?' filled d'+cd:'')+'" title="'+labels[i]+'" onclick="event.stopPropagation();setDiff('+qId+','+i+',\''+sid+'\')"></span>';
+  }
+  return h;
+}
+function setDiff(qId,level,sid){
+  diffOv['d'+qId]=level; saveDiffOv();
+  var w=document.getElementById('diff-'+sid);
+  if(w) w.innerHTML=buildDots(qId,level,sid);
+}
+
+// ═══════════════════════════════════════════════════════
+// STUDENT: NAVIGATION
+// ═══════════════════════════════════════════════════════
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nt').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(id==='bank') renderBank();
+  if(id==='stats') renderStats();
+}
+
+// ═══════════════════════════════════════════════════════
+// STUDENT: BANK
+// ═══════════════════════════════════════════════════════
+var bankFilters={topic:'all',paper:'all',year:'all',diff:'all',qType:'all'};
+var selected={};
+
+function filteredQs(){
+  return loadQS().filter(function(q){
+    if(bankFilters.topic!=='all'&&q.topic!==bankFilters.topic)return false;
+    if(bankFilters.paper!=='all'&&q.paper!==parseInt(bankFilters.paper))return false;
+    if(bankFilters.year!=='all'&&q.year!==parseInt(bankFilters.year))return false;
+    if(bankFilters.diff!=='all'&&getQDiff(q)!==parseInt(bankFilters.diff))return false;
+    if(bankFilters.qType!=='all'&&q.qType!==bankFilters.qType)return false;
+    return true;
+  });
+}
+
+function renderBankControls(){
+  var qs=loadQS();
+  if(!qs.length){document.getElementById('qbControls').innerHTML='';return;}
+  var years=[];qs.forEach(function(q){if(years.indexOf(q.year)===-1)years.push(q.year);});years.sort(function(a,b){return b-a;});
+  var h='';
+  // Topics row
+  h+='<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px;">';
+  h+='<span style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);min-width:44px;">Topic</span>';
+  h+='<button class="chip'+(bankFilters.topic==='all'?' active':'')+'" onclick="setBF(\'topic\',\'all\')">All</button>';
+  TOPICS.filter(function(t){return qs.some(function(q){return q.topic===t;});}).forEach(function(t){
+    var n=qs.filter(function(q){
+      return q.topic===t
+        &&(bankFilters.paper==='all'||q.paper===parseInt(bankFilters.paper))
+        &&(bankFilters.year==='all'||q.year===parseInt(bankFilters.year))
+        &&(bankFilters.diff==='all'||getQDiff(q)===parseInt(bankFilters.diff))
+        &&(bankFilters.qType==='all'||q.qType===bankFilters.qType);
+    }).length;
+    h+='<button class="chip '+topicClass(t)+(bankFilters.topic===t?' active':'')+'" onclick="setBF(\'topic\',\''+t.replace(/'/g,"\\'")+'\')">'+t+' <span class="n">'+n+'</span></button>';
+  });
+  h+='</div>';
+  // Paper/Type/Diff row
+  h+='<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px;">';
+  h+='<span style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);min-width:44px;">Paper</span>';
+  [{v:'all',l:'All'},{v:'1',l:'Paper 1'},{v:'2',l:'Paper 2'}].forEach(function(p){h+='<button class="chip'+(bankFilters.paper===p.v?' active':'')+'" onclick="setBF(\'paper\',\''+p.v+'\')">'+p.l+'</button>';});
+  h+='<div class="chip-sep"></div>';
+  h+='<span style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);min-width:28px;">Type</span>';
+  [{v:'all',l:'All'},{v:'short',l:'Short Q'},{v:'long',l:'Long Q'}].forEach(function(t){h+='<button class="chip'+(bankFilters.qType===t.v?' active':'')+'" onclick="setBF(\'qType\',\''+t.v+'\')">'+t.l+'</button>';});
+  h+='<div class="chip-sep"></div>';
+  h+='<span style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);min-width:52px;">Difficulty</span>';
+  [{v:'all',l:'All'},{v:'1',l:'● Easy'},{v:'2',l:'●● Med'},{v:'3',l:'●●● Hard'}].forEach(function(d){h+='<button class="chip'+(bankFilters.diff===d.v?' active':'')+'" onclick="setBF(\'diff\',\''+d.v+'\')">'+d.l+'</button>';});
+  h+='</div>';
+  // Years row
+  h+='<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">';
+  h+='<span style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);min-width:44px;">Year</span>';
+  h+='<button class="chip'+(bankFilters.year==='all'?' active':'')+'" onclick="setBF(\'year\',\'all\')">All</button>';
+  years.forEach(function(y){h+='<button class="chip'+(bankFilters.year==y?' active':'')+'" onclick="setBF(\'year\',\''+y+'\')">'+y+'</button>';});
+  h+='</div>';
+  document.getElementById('qbControls').innerHTML=h;
+}
+
+function renderBank(){
+  renderBankControls();
+  var qs=loadQS(), data=filteredQs();
+  if(!qs.length){
+    document.getElementById('qbMeta').textContent='';
+    document.getElementById('qList').innerHTML='<div class="empty-bank"><div class="empty-bank-icon">📚</div><div class="empty-bank-title">No questions yet</div><div class="empty-bank-sub">Questions will appear here once they\'ve been added to the bank.</div></div>';
+    return;
+  }
+  document.getElementById('qbMeta').textContent=data.length+' question'+(data.length!==1?'s':'')+' • select to build a PDF';
+  var dl=['','● Easy','●● Medium','●●● Hard'],dc=['','color:#16a34a','color:#d97706','color:#FF0000'];
+  var h='';
+  data.forEach(function(q){
+    var key=qKey(q), done=!!revised[key], sel=!!selected[key];
+    var sid='qc'+q.id, tcls=topicClass(q.topic), cd=getQDiff(q);
+    var parts = q.parts || [];
+    // Legacy support: if no parts array, synthesise one
+    if(!parts.length && (q.contentText||q.contentImage)){
+      parts=[{part:'a',contentType:q.contentType,contentText:q.contentText,contentImage:q.contentImage,answerBoxRows:q.answerBoxRows||0,modelAnswer:null,videoUrl:null,requiredInfo:null}];
+    }
+
+    h+='<div class="qcard'+(done?' done':'')+'" id="'+sid+'">';
+    // Header
+    h+='<div class="qch" onclick="toggleCard(\''+sid+'\')" style="grid-template-columns:52px 30px 32px 130px 1fr auto auto auto auto;">';
+    h+='<span class="qyear">'+q.year+'</span>';
+    h+='<span class="qpaper">P'+q.paper+'</span>';
+    h+='<span class="qqnum">Q'+q.qNum+'</span>';
+    h+='<span class="qtpill '+tcls+'">'+q.topic+'</span>';
+    h+='<span class="qsnip">'+(q.subtopic||q.topic)+'</span>';
+    h+='<span class="qtypepill '+q.qType+'">'+(q.qType==='short'?'Short':'Long')+'</span>';
+    h+='<div class="ddots" id="diff-'+sid+'" onclick="event.stopPropagation()">'+buildDots(q.id,cd,sid)+'</div>';
+    h+='<div class="qcw" onclick="event.stopPropagation()">';
+    h+='<input type="checkbox" id="k'+sid+'"'+(done?' checked':'')+' onchange="toggleRevised(\''+key+'\',\''+sid+'\')">';
+    h+='<label class="qcl" for="k'+sid+'">'+(done?'✓ Done':'Mark done')+'</label></div>';
+    h+='<span class="qchev">▶</span></div>';
+
+    // Body
+    h+='<div class="qcb">';
+
+    // Info chips
+    h+='<div class="qib" style="padding-top:12px;">';
+    h+='<span class="qic blue">Paper '+q.paper+'</span>';
+    h+='<span class="qic amber">'+q.topic+'</span>';
+    h+='<span class="qic green">'+q.marks+' marks</span>';
+    h+='<span class="qic '+(q.qType==='short'?'blue':'red')+'">'+(q.qType==='short'?'Short Q':'Long Q')+'</span>';
+    h+='<span class="qic" style="background:#f5f5f5;'+dc[cd]+'">'+dl[cd]+'</span>';
+    h+='</div>';
+
+    // Parts
+    parts.forEach(function(p, pi){
+      var partSid = sid+'_'+p.part;
+      h+='<div class="part-section">';
+      if(parts.length > 1) h+='<div class="part-label">Part ('+p.part+')</div>';
+
+      // Required info box
+      if(p.requiredInfo){
+        h+='<div class="req-info-box"><div class="req-info-label">ℹ Required from previous answer</div>'+escHtml(p.requiredInfo)+'</div>';
+      }
+
+      // Content
+      if(p.contentType==='image' && p.contentImage){
+        h+='<div class="q-content-area"><img class="q-img-content" src="'+p.contentImage+'" alt="Q'+q.qNum+p.part+'"></div>';
+      } else if(p.contentType==='text' && p.contentText){
+        h+='<div class="q-content-area"><div class="q-text-content">'+escHtml(p.contentText)+'</div></div>';
+      }
+
+      // Answer box
+      if(p.answerBoxRows && p.answerBoxRows>0){
+        h+='<div class="answer-box-wrap"><div class="answer-box">'+buildAnswerBoxSVG(p.answerBoxRows)+'</div></div>';
+      }
+
+      // Show answer + video buttons (only if populated)
+      var hasAns = p.modelAnswer && p.modelAnswer.trim();
+      var hasVid = p.videoUrl && p.videoUrl.trim();
+      if(hasAns || hasVid){
+        h+='<div style="display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 6px;">';
+        if(hasAns){
+          h+='<button class="reveal-btn ans" onclick="toggleAnswer(\''+partSid+'\',this)">▶ Show Answer</button>';
+        }
+        if(hasVid){
+          var safeUrl = p.videoUrl.replace(/'/g,"\\'");
+          h+='<a class="reveal-btn vid" href="'+escHtml(p.videoUrl)+'" target="_blank" rel="noopener">▶ Watch Video</a>';
+        }
+        h+='</div>';
+        if(hasAns){
+          h+='<div class="answer-reveal" id="ans-'+partSid+'">'+escHtml(p.modelAnswer)+'</div>';
+        }
+      }
+      h+='</div>'; // end part-section
+    });
+
+    // Actions row
+    h+='<div class="qact" style="border-top:1px solid #f0f0f0;margin-top:10px;">';
+    h+='<a class="btn primary" href="https://www.examinations.ie/exammaterialarchive/" target="_blank" rel="noopener">SEC Paper PDF</a>';
+    h+='<div class="qsw" onclick="event.stopPropagation()"><input type="checkbox" id="s'+sid+'"'+(sel?' checked':'')+' onchange="toggleSel(\''+key+'\')"><label class="qsl" for="s'+sid+'">✓</label></div>';
+    h+='<span style="font-size:.65rem;color:var(--muted);">Select to PDF</span>';
+    h+='<button class="btn timer-btn" onclick="startTimer('+q.marks+',\''+q.year+' P'+q.paper+' Q'+q.qNum+' — '+(q.subtopic||q.topic).replace(/'/g,"\\'")+'\')">⏱ '+(q.marks<=10?'10':q.marks<=15?'15':'25')+' min timer</button>';
+    h+='</div></div></div>';
+  });
+  if(!data.length&&qs.length) h='<div style="text-align:center;padding:60px;color:var(--muted);font-style:italic;">No questions match the current filters.</div>';
+  document.getElementById('qList').innerHTML=h;
+}
+
+function toggleAnswer(partSid, btn){
+  var el = document.getElementById('ans-'+partSid);
+  if(!el) return;
+  var showing = el.classList.toggle('show');
+  btn.textContent = showing ? '▼ Hide Answer' : '▶ Show Answer';
+}
+
+function setBF(t,v){bankFilters[t]=v;renderBank();}
+
+function toggleCard(id){
+  var e=document.getElementById(id);
+  if(e) e.classList.toggle('open');
+}
+
+function toggleRevised(key,id){
+  revised[key]=!revised[key]; saveRevised(revised);
+  var row=document.getElementById(id),chk=document.getElementById('k'+id),lbl=chk?chk.nextElementSibling:null;
+  if(revised[key]){if(row)row.classList.add('done');if(lbl)lbl.textContent='✓ Done';if(chk)chk.checked=true;}
+  else{if(row)row.classList.remove('done');if(lbl)lbl.textContent='Mark done';if(chk)chk.checked=false;}
+  updateProgress();
+}
+
+function toggleSel(key){if(selected[key])delete selected[key];else selected[key]=true;updateSelBar();}
+function clearSelection(){selected={};document.querySelectorAll('.qsw input').forEach(function(b){b.checked=false;});updateSelBar();}
+function updateSelBar(){var n=Object.keys(selected).length;document.getElementById('selCount').textContent=n;document.getElementById('selBar').classList[n>0?'add':'remove']('show');}
+
+function updateProgress(){
+  var qs=loadQS(),total=qs.length,done=qs.filter(function(q){return revised[qKey(q)];}).length;
+  var pct=total?Math.round((done/total)*100):0;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct+'%';
+  document.getElementById('progressBadge').textContent=pct+'%';
+}
+
+// ═══════════════════════════════════════════════════════
+// STUDENT: PDF
+// ═══════════════════════════════════════════════════════
+function downloadPDF(){
+  var qs=loadQS().filter(function(q){return selected[qKey(q)];});
+  if(!qs.length)return;
+  var today=new Date().toLocaleDateString('en-IE',{day:'numeric',month:'long',year:'numeric'});
+  var body='<div class="ph"><div class="logo">LC</div><div><div class="pt">LC Maths HL — Custom Question Set</div><div class="ps">'+qs.length+' question'+(qs.length!==1?'s':'')+' · '+today+'</div></div></div>';
+  var grp={};qs.forEach(function(q){if(!grp[q.topic])grp[q.topic]=[];grp[q.topic].push(q);});
+  TOPICS.filter(function(t){return grp[t];}).forEach(function(t){
+    body+='<div class="sh"><h2>'+t+'</h2></div>';
+    grp[t].sort(function(a,b){return b.year-a.year;}).forEach(function(q){
+      var parts = q.parts||[];
+      if(!parts.length&&(q.contentText||q.contentImage)) parts=[{part:'a',contentType:q.contentType,contentText:q.contentText,contentImage:q.contentImage,answerBoxRows:q.answerBoxRows||0}];
+      body+='<div class="qb">';
+      body+='<div class="qm">'+q.year+' · Paper '+q.paper+' · Q'+q.qNum+' · '+(q.subtopic||q.topic)+' · '+q.marks+' marks</div>';
+      parts.forEach(function(p){
+        if(parts.length>1) body+='<div class="plabel">Part ('+p.part+')</div>';
+        if(p.requiredInfo) body+='<div class="reqbox">'+p.requiredInfo+'</div>';
+        if(p.contentType==='image'&&p.contentImage) body+='<img src="'+p.contentImage+'" style="max-width:100%;margin:6pt 0;display:block;">';
+        else if(p.contentType==='text'&&p.contentText) body+='<div class="qtxt">'+p.contentText.replace(/\n/g,'<br>')+'</div>';
+        if(p.answerBoxRows&&p.answerBoxRows>0){
+          var rows=p.answerBoxRows,cs=18,W=500,totalH=rows*cs,cols=Math.floor(W/cs),lines='';
+          for(var c=1;c<cols;c++) lines+='<line x1="'+(c*cs)+'" y1="0" x2="'+(c*cs)+'" y2="'+totalH+'" stroke="#c8c8c8" stroke-width="0.5"/>';
+          for(var r=1;r<rows;r++) lines+='<line x1="0" y1="'+(r*cs)+'" x2="'+W+'" y2="'+(r*cs)+'" stroke="#c8c8c8" stroke-width="0.5"/>';
+          body+='<div class="ans-box"><svg viewBox="0 0 '+W+' '+totalH+'" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;"><rect width="'+W+'" height="'+totalH+'" fill="#fff"/>'+lines+'</svg></div>';
+        }
+      });
+      body+='</div>';
+    });
+  });
+  var css='body{font-family:sans-serif;font-size:11pt;padding:2cm;max-width:820px;margin:0 auto;}.ph{display:flex;align-items:center;gap:16pt;margin-bottom:20pt;padding-bottom:14pt;border-bottom:3px solid #333;}.logo{font-size:24pt;font-weight:700;color:#111;}.pt{font-size:13pt;font-weight:700;}.ps{font-size:8pt;color:#666;}.sh{border-bottom:2px solid #111;margin:20pt 0 10pt;}.sh h2{font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}.qb{padding:14pt 0;border-bottom:1px solid #eee;}.qm{font-size:7.5pt;font-weight:700;text-transform:uppercase;color:#999;letter-spacing:.06em;margin-bottom:6pt;}.plabel{font-size:8pt;font-weight:700;color:#FF0000;text-transform:uppercase;letter-spacing:.06em;margin:6pt 0 4pt;}.reqbox{background:#fffbeb;border:1px solid #fde68a;border-radius:3pt;padding:6pt 8pt;font-size:9pt;color:#78350f;margin-bottom:6pt;}.qtxt{font-size:10pt;line-height:1.7;margin:4pt 0;white-space:pre-wrap;}.ans-box{border:2px solid #FF0000;margin-top:8pt;display:block;}';
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'+css+'</style></head><body>'+body+'<sc'+'ript>window.onload=function(){window.print();};<\/sc'+'ript></body></html>';
+  var blob=new Blob([html],{type:'text/html'}),url=URL.createObjectURL(blob);
+  window.open(url,'_blank');
+  setTimeout(function(){URL.revokeObjectURL(url);},10000);
+}
+
+// ═══════════════════════════════════════════════════════
+// STUDENT: STATS
+// ═══════════════════════════════════════════════════════
+function renderStats(){
+  var qs=loadQS(),total=qs.length,done=qs.filter(function(q){return revised[qKey(q)];}).length;
+  var pct=total?Math.round((done/total)*100):0;
+  document.getElementById('statsGrid').innerHTML=
+    '<div class="stat-card"><div class="stat-value">'+done+'</div><div class="stat-label">Questions Done</div><div class="stat-sub">out of '+total+'</div></div>'+
+    '<div class="stat-card"><div class="stat-value">'+pct+'%</div><div class="stat-label">Overall Progress</div><div class="stat-sub">'+(total-done)+' remaining</div></div>'+
+    '<div class="stat-card"><div class="stat-value">'+qs.filter(function(q){return q.year===new Date().getFullYear();}).length+'</div><div class="stat-label">This Year</div><div class="stat-sub">questions in bank</div></div>';
+  var h='';
+  TOPICS.forEach(function(t){
+    var tqs=qs.filter(function(q){return q.topic===t;});
+    if(!tqs.length)return;
+    var td=tqs.filter(function(q){return revised[qKey(q)];}).length;
+    var tp=Math.round((td/tqs.length)*100);
+    h+='<div class="tpi"><div class="tpi-label">'+t+'</div><div class="tpi-track"><div class="tpi-fill" style="width:'+tp+'%"></div></div><div class="tpi-pct">'+tp+'%</div></div>';
+  });
+  document.getElementById('topicProgress').innerHTML=h||'<div style="color:var(--muted);font-size:.75rem;font-style:italic;">No questions in bank yet.</div>';
+}
+
+// ═══════════════════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════════════════
+var timerInt=null, timerSec=0;
+function startTimer(marks,label,over){
+  clearInterval(timerInt);
+  var mins=over||(marks<=10?10:marks<=15?15:25);
+  timerSec=mins*60;
+  document.getElementById('timerPrompt').textContent=label;
+  var d=document.getElementById('timerDisplay');
+  d.className='timer-display';
+  d.textContent=(mins<10?'0':'')+mins+':00';
+  document.getElementById('timerOverlay').classList.add('show');
+  timerInt=setInterval(function(){
+    timerSec--;
+    var m=Math.floor(timerSec/60),s=timerSec%60;
+    d.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    if(timerSec<=0){clearInterval(timerInt);d.textContent='Time!';d.className='timer-display done';}
+    else if(timerSec<=120)d.className='timer-display warn';
+  },1000);
+}
+function stopTimer(){clearInterval(timerInt);document.getElementById('timerOverlay').classList.remove('show');}
+function closeTimer(){clearInterval(timerInt);document.getElementById('timerOverlay').classList.remove('show');}
+
+// ═══════════════════════════════════════════════════════
+// INIT — fetch questions.json then boot the app
+// ═══════════════════════════════════════════════════════
+function _boot(){
+  try {
+    var sa = document.getElementById('studentApp');
+
+    if(IS_ADMIN){
+      fetch('questions.json?_=' + Date.now())
+        .then(function(r){ return r.ok ? r.json() : []; })
+        .then(function(data){
+          if(Array.isArray(data)) saveQS(data);
+          renderAdminList(); renderAdminFilters();
+          setTimeout(function(){initPartPreviews();},50);
+        })
+        .catch(function(){
+          renderAdminList(); renderAdminFilters();
+          setTimeout(function(){initPartPreviews();},50);
+        });
+      return;
+    }
+
+    if(sa && sa.style.display !== 'none'){
+      document.getElementById('qList').innerHTML =
+        '<div style="text-align:center;padding:60px;color:var(--muted);font-size:.8rem;">Loading questions…</div>';
+
+      fetch('questions.json?_=' + Date.now())
+        .then(function(r){ return r.ok ? r.json() : []; })
+        .then(function(data){
+          if(Array.isArray(data)) saveQS(data);
+          renderBank(); updateProgress();
+        })
+        .catch(function(){
+          renderBank(); updateProgress();
+        });
+    }
+  } catch(e){ console.warn('LC Maths init error:', e); }
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', _boot);
+} else {
+  _boot();
+}
+</script>
+</body>
+</html>
