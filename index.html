@@ -619,6 +619,9 @@ header{background:#fff;border-bottom:2px solid var(--accent);padding:0 32px;posi
 // CONSTANTS
 // ═══════════════════════════════════════════════════════
 var ADMIN_PW = 'lcmaths2026';
+
+var SITE_URL = 'https://grinds360.github.io/lc-maths-hl';
+
 var TOPICS = ['Calculus','Algebra & Functions','Complex Numbers','Sequences & Series','Probability & Statistics','Co-ordinate Geometry','Trigonometry','Financial Maths','Proofs'];
 var TOPIC_SHORT = {'Calculus':'Calculus','Algebra & Functions':'Algebra','Complex Numbers':'Complex','Sequences & Series':'Sequences','Probability & Statistics':'Probability','Co-ordinate Geometry':'Coordinate','Trigonometry':'Trigonometry','Financial Maths':'Financial','Proofs':'Proofs'};
 var TIPS_DEFAULT = {
@@ -1486,12 +1489,28 @@ function closeTimer(){clearInterval(timerInt);document.getElementById('timerOver
 // ═══════════════════════════════════════════════════════
 // INIT — fetch questions.json then boot the app
 // ═══════════════════════════════════════════════════════
+function _getQuestionsURL(){
+  // Use the configured absolute URL if it's been set, otherwise
+  // derive from window.location (works when opened directly, not in an iframe)
+  if(SITE_URL && SITE_URL.indexOf('yourusername') === -1){
+    return SITE_URL.replace(/\/$/, '') + '/questions.json?_=' + Date.now();
+  }
+  try {
+    // If we can read window.location (direct visit, not cross-origin iframe)
+    var base = window.location.href.replace(/\?.*$/, '').replace(/[^/]*$/, '');
+    return base + 'questions.json?_=' + Date.now();
+  } catch(e){
+    return 'questions.json?_=' + Date.now();
+  }
+}
+
 function _boot(){
   try {
     var sa = document.getElementById('studentApp');
+    var url = _getQuestionsURL();
 
     if(IS_ADMIN){
-      fetch('questions.json?_=' + Date.now())
+      fetch(url)
         .then(function(r){ return r.ok ? r.json() : []; })
         .then(function(data){
           if(Array.isArray(data)) saveQS(data);
@@ -1509,14 +1528,19 @@ function _boot(){
       document.getElementById('qList').innerHTML =
         '<div style="text-align:center;padding:60px;color:var(--muted);font-size:.8rem;">Loading questions…</div>';
 
-      fetch('questions.json?_=' + Date.now())
-        .then(function(r){ return r.ok ? r.json() : []; })
+      fetch(url)
+        .then(function(r){
+          if(!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
         .then(function(data){
           if(Array.isArray(data)) saveQS(data);
           renderBank(); updateProgress();
         })
-        .catch(function(){
-          renderBank(); updateProgress();
+        .catch(function(err){
+          console.warn('Could not load questions.json:', err);
+          document.getElementById('qList').innerHTML =
+            '<div style="text-align:center;padding:60px;color:var(--muted);font-size:.8rem;">Could not load questions. Check your SITE_URL setting in the HTML file.</div>';
         });
     }
   } catch(e){ console.warn('LC Maths init error:', e); }
