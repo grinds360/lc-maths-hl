@@ -70,17 +70,23 @@
     "year": 2025,
     "paper": 1,
     "qNum": 8,
-    "part": "a",
     "topic": "Financial Maths",
     "subtopic": "Tax",
     "marks": 25,
     "diff": 2,
     "qType": "long",
-    "contentType": "text",
-    "contentText": "Jacob buys a new kayak in a shop. The kayak is usually priced at €870.\nThis price is reduced by 15% in a sale.\nJacob gets a further reduction of 10% on this reduced price, because he is a member of the\nshop’s loyalty club.\nFind the price that Jacob pays for the kayak.",
-    "contentImage": null,
-    "tips": [],
-    "answerBoxRows": 5
+    "parts": [
+      {
+        "part": "a",
+        "requiredInfo": null,
+        "contentType": "text",
+        "contentText": "Jacob buys a new kayak in a shop. The kayak is usually priced at €870.\nThis price is reduced by 15% in a sale.\nJacob gets a further reduction of 10% on this reduced price, because he is a member of the\nshop’s loyalty club.\nFind the price that Jacob pays for the kayak.",
+        "contentImage": null,
+        "answerBoxRows": 5,
+        "modelAnswer": "870 *.85 = €739.50",
+        "videoUrl": "https://youtu.be/9rYd_huWwUc?si=7heGl8wXprk0cVdX"
+      }
+    ]
   },
   {
     "id": 1774949628372,
